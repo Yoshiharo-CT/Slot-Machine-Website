@@ -14,8 +14,7 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
 
@@ -31,7 +30,7 @@
 
     <!--====================================
                 HEADER
-=====================================-->
+    =====================================-->
 
     <header class="header">
 
@@ -54,16 +53,16 @@
 
     <!--====================================
                 MAIN
-=====================================-->
+    =====================================-->
 
     <main class="container">
 
 
         <!--====================================
-            PLAYER PANEL
-=====================================-->
+            PLAYER PANEL (Mobile-first, hidden on desktop)
+        =====================================-->
 
-        <section class="player-panel">
+        <section class="player-panel mobile-stats">
 
             <article class="panel-card">
 
@@ -86,7 +85,7 @@
 
                     <i class="fas fa-money-bill-wave"></i>
 
-                    Current Bet
+                    Bet
 
                 </h3>
 
@@ -113,151 +112,265 @@
 
 
         <!--====================================
-            SLOT MACHINE
-=====================================-->
+            TWO-COLUMN GAME LAYOUT
+        =====================================-->
 
-        <section class="slot-machine">
+        <div class="game-layout">
 
-            <div class="machine">
 
-                <!-- Decorative Lights -->
+            <!-- LEFT COLUMN: SLOT MACHINE -->
 
-                <div class="machine-lights">
+            <section class="slot-machine">
 
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div class="machine">
+
+                    <!-- Audio Control (top right) -->
+                    <div class="audio-control">
+                        <button id="audioToggle" class="audio-btn" aria-label="Toggle sound">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+
+                    <!-- Decorative Lights -->
+
+                    <div class="machine-lights">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+                    <!-- Machine Title -->
+
+                    <div class="machine-header">
+
+                        <h2>
+
+                            <i class="fas fa-laptop-code"></i>
+
+                            CODE SPIN
+
+                        </h2>
+
+                        <p>Match Programming Languages to Win!</p>
+
+                    </div>
+
+
+                    <!-- REELS -->
+
+                    <div class="slot-frame">
+
+                        <div class="slot">
+
+                            <div class="reel" id="slot1">
+
+                            </div>
+
+                        </div>
+
+                        <div class="slot">
+
+                            <div class="reel" id="slot2">
+
+                            </div>
+
+                        </div>
+
+                        <div class="slot">
+
+                            <div class="reel" id="slot3">
+
+                            </div>
+
+                        </div>
+
+                        <div class="payline"></div>
+
+                    </div>
+
+
+                    <!-- Result -->
+
+                    <div id="resultMessage" class="result">
+
+                        🎰 Press SPIN to Start!
+
+                    </div>
 
                 </div>
 
-                <!-- Machine Title -->
-
-                <div class="machine-header">
-
-                    <h2>
-
-                        <i class="fas fa-laptop-code"></i>
-
-                        CODE SPIN
-
-                    </h2>
-
-                    <p>Match Programming Languages to Win!</p>
-
-                </div>
+            </section>
 
 
-                <!--========================
-                REELS
-        =========================-->
+            <!-- RIGHT COLUMN: SIDE PANEL -->
 
-                <div class="slot-frame">
+            <aside class="side-panel">
 
-                    <div class="slot">
+                <!-- Player Stats (desktop) -->
 
-                        <div class="reel" id="slot1">
+                <div class="desktop-stats">
+
+                    <div class="stat-row">
+
+                        <div class="stat-item">
+
+                            <span class="stat-label"><i class="fas fa-coins"></i> Coins</span>
+
+                            <span class="stat-value" id="coinsDesktop">1000</span>
+
+                        </div>
+
+                        <div class="stat-item">
+
+                            <span class="stat-label"><i class="fas fa-money-bill-wave"></i> Bet</span>
+
+                            <span class="stat-value" id="betDesktop">50</span>
+
+                        </div>
+
+                        <div class="stat-item">
+
+                            <span class="stat-label"><i class="fas fa-chart-line"></i> Win Rate</span>
+
+                            <span class="stat-value" id="winRateDesktop">0%</span>
 
                         </div>
 
                     </div>
 
-                    <div class="slot">
+                </div>
 
-                        <div class="reel" id="slot2">
+                <!-- Bet Controls -->
+
+                <div class="bet-section">
+
+                    <div class="bet-controls">
+
+                        <button id="decreaseBet" class="control-btn">
+
+                            <i class="fas fa-minus"></i>
+
+                        </button>
+
+                        <div class="bet-display">
+
+                            <span class="bet-label">Current Bet</span>
+
+                            <span class="bet-amount" id="betDisplay">50</span>
 
                         </div>
 
-                    </div>
+                        <button id="increaseBet" class="control-btn">
 
-                    <div class="slot">
+                            <i class="fas fa-plus"></i>
 
-                        <div class="reel" id="slot3">
-
-                        </div>
+                        </button>
 
                     </div>
 
                 </div>
 
+                <!-- Action Buttons -->
 
-                <!-- Winning Line -->
+                <div class="action-buttons">
 
-                <div class="payline"></div>
+                    <button id="spinButton" class="spin-btn">
 
+                        <i class="fas fa-play"></i>
 
-                <!-- Result -->
+                        SPIN
 
-                <div id="resultMessage" class="result">
+                    </button>
 
-                    🎰 Press SPIN to Start!
+                    <div class="secondary-actions">
+
+                        <button id="autoSpin" class="secondary-btn">
+
+                            <i class="fas fa-repeat"></i>
+
+                            AUTO SPIN
+
+                        </button>
+
+                        <button id="resetGame" class="secondary-btn">
+
+                            <i class="fas fa-rotate-left"></i>
+
+                            RESET
+
+                        </button>
+
+                    </div>
 
                 </div>
 
-            </div>
+                <!-- Payout Table -->
 
-        </section>
+                <div class="payout-table">
+
+                    <h3><i class="fas fa-trophy"></i> Reward Table</h3>
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Combination</th>
+
+                                <th>Reward</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+
+                                <td>3 Matching Logos</td>
+
+                                <td>Bet × 5</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>2 Matching Logos</td>
+
+                                <td>Bet × 2</td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>No Match</td>
+
+                                <td>Lose Bet</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </aside>
+
+        </div>
 
 
         <!--====================================
-            CONTROLS
-=====================================-->
-
-        <section class="controls">
-
-            <div class="bet-controls">
-
-                <button id="decreaseBet" class="control-btn">
-
-                    <i class="fas fa-minus"></i>
-
-                </button>
-
-                <button id="increaseBet" class="control-btn">
-
-                    <i class="fas fa-plus"></i>
-
-                </button>
-
-            </div>
-
-
-            <button id="spinButton" class="spin-btn">
-
-                <i class="fas fa-play"></i>
-
-                SPIN
-
-            </button>
-
-
-            <button id="autoSpin" class="secondary-btn">
-
-                <i class="fas fa-repeat"></i>
-
-                AUTO SPIN
-
-            </button>
-
-
-            <button id="resetGame" class="secondary-btn">
-
-                <i class="fas fa-rotate-left"></i>
-
-                RESET
-
-            </button>
-
-        </section>
-
-
-        <!--====================================
-            GAME STATISTICS
-=====================================-->
+            GAME STATISTICS (full width, below)
+        =====================================-->
 
         <section class="statistics">
 
@@ -307,73 +420,12 @@
 
         </section>
 
-
-        <!--====================================
-            PAYOUT TABLE
-=====================================-->
-
-        <section class="payout-table">
-
-            <h2>
-
-                <i class="fas fa-trophy"></i>
-
-                Reward Table
-
-            </h2>
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Combination</th>
-
-                        <th>Reward</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>3 Matching Logos</td>
-
-                        <td>Bet × 5</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>2 Matching Logos</td>
-
-                        <td>Bet × 2</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>No Match</td>
-
-                        <td>Lose Bet</td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </section>
-
     </main>
 
 
     <!--====================================
                 FOOTER
-=====================================-->
+    =====================================-->
 
     <footer>
 
@@ -390,7 +442,7 @@
 
     <!--====================================
             JAVASCRIPT
-=====================================-->
+    =====================================-->
 
     <script src="script.js"></script>
 

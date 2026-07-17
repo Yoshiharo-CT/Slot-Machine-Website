@@ -2,7 +2,7 @@
     CODESPIN
     Programming Language Slot Machine
     STYLE.CSS
-    PART 2A
+    REDESIGNED LAYOUT
 ======================================================*/
 
 /*==========================
@@ -153,7 +153,7 @@ a {
 
     width: 100%;
 
-    padding: 22px 8%;
+    padding: 18px 8%;
 
     background: #111827;
 
@@ -182,14 +182,14 @@ a {
 
     align-items: center;
 
-    gap: 18px;
+    gap: 16px;
 
 }
 
 
 .logo i {
 
-    font-size: 42px;
+    font-size: 36px;
 
     color: var(--primary);
 
@@ -198,9 +198,11 @@ a {
 
 .logo h1 {
 
-    font-size: 2rem;
+    font-size: 1.7rem;
 
     font-weight: 700;
+
+    line-height: 1.2;
 
 }
 
@@ -209,7 +211,7 @@ a {
 
     color: var(--text-light);
 
-    font-size: .95rem;
+    font-size: .85rem;
 
 }
 
@@ -220,65 +222,60 @@ a {
 
 .container {
 
-    width: min(1300px, 92%);
+    width: min(1400px, 94%);
 
-    margin: 45px auto;
+    margin: 30px auto;
+
+    max-width: 100%;
+
+    overflow: hidden;
 
 }
 
 
 /*==========================
-        PLAYER PANEL
+        PLAYER PANEL (mobile only)
 ===========================*/
 
-.player-panel {
+.mobile-stats {
 
-    display: grid;
+    display: none;
 
     grid-template-columns: repeat(3, 1fr);
 
-    gap: 25px;
+    gap: 14px;
 
-    margin-bottom: 45px;
+    margin-bottom: 24px;
 
 }
 
-
-.panel-card {
+.mobile-stats .panel-card {
 
     background: linear-gradient(145deg,
             #1e293b,
             #0f172a);
 
-    border-radius: 20px;
+    border-radius: 16px;
 
-    padding: 28px;
+    padding: 16px 12px;
 
     text-align: center;
 
     box-shadow: var(--shadow);
 
-    transition: var(--transition);
-
     border: 1px solid rgba(255, 255, 255, .05);
 
-}
-
-
-.panel-card:hover {
-
-    transform: translateY(-8px);
+    transition: var(--transition);
 
 }
 
+.mobile-stats .panel-card h3 {
 
-.panel-card h3 {
-
-    font-size: 1rem;
+    font-size: .8rem;
 
     color: var(--text-light);
 
-    margin-bottom: 15px;
+    margin-bottom: 6px;
 
     display: flex;
 
@@ -286,21 +283,21 @@ a {
 
     align-items: center;
 
-    gap: 8px;
+    gap: 6px;
 
 }
 
-
-.panel-card h3 i {
+.mobile-stats .panel-card h3 i {
 
     color: var(--primary);
 
+    font-size: .85rem;
+
 }
 
+.mobile-stats .panel-card span {
 
-.panel-card span {
-
-    font-size: 2rem;
+    font-size: 1.5rem;
 
     font-weight: 700;
 
@@ -310,7 +307,26 @@ a {
 
 
 /*====================================================
-            SLOT MACHINE
+        TWO-COLUMN GAME LAYOUT
+====================================================*/
+
+.game-layout {
+
+    display: grid;
+
+    grid-template-columns: 1fr 340px;
+
+    gap: 28px;
+
+    align-items: start;
+
+    margin-bottom: 40px;
+
+}
+
+
+/*====================================================
+        SLOT MACHINE (left column)
 ====================================================*/
 
 .slot-machine {
@@ -319,30 +335,26 @@ a {
 
     justify-content: center;
 
-    margin-bottom: 50px;
+    width: 100%;
 
 }
 
-
-/*==========================
-        MACHINE BODY
-===========================*/
 
 .machine {
 
     width: 100%;
 
-    max-width: 850px;
+    max-width: 780px;
 
     background: linear-gradient(180deg,
             #1f2937,
             #111827);
 
-    border-radius: 30px;
+    border-radius: 28px;
 
-    padding: 35px;
+    padding: 28px 30px 30px;
 
-    border: 4px solid rgba(255, 255, 255, .05);
+    border: 3px solid rgba(255, 255, 255, .05);
 
     box-shadow:
 
@@ -354,33 +366,76 @@ a {
 
 
 /*==========================
+        AUDIO CONTROL (top right)
+===========================*/
+
+.audio-control {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    z-index: 10;
+}
+
+.audio-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.audio-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: scale(1.05);
+}
+
+.audio-btn.muted {
+    color: #94a3b8;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.audio-btn.muted i {
+    opacity: 0.6;
+}
+
+
+/*==========================
         LED LIGHTS
 ===========================*/
 
 .machine-lights {
 
-    display: inline;
+    display: flex;
 
     justify-content: center;
 
     align-items: center;
 
-    width: fit-content;
+    gap: 10px;
 
-    gap: 12px;
+    margin: 0 auto 20px;
 
-    margin: 0 auto 25px;
+    flex-wrap: wrap;
 
 }
 
 
 .machine-lights span {
 
-    display: inline;
+    display: inline-block;
 
-    width: 14px;
+    width: 12px;
 
-    height: 14px;
+    height: 12px;
 
     border-radius: 50%;
 
@@ -433,14 +488,14 @@ a {
 
     text-align: center;
 
-    margin-bottom: 35px;
+    margin-bottom: 22px;
 
 }
 
 
 .machine-header h2 {
 
-    font-size: 2rem;
+    font-size: 1.6rem;
 
     letter-spacing: 2px;
 
@@ -458,11 +513,14 @@ a {
 
 .machine-header p {
 
-    margin-top: 8px;
+    margin-top: 4px;
 
     color: var(--text-light);
 
+    font-size: .9rem;
+
 }
+
 
 /*======================================================
             SLOT FRAME
@@ -478,17 +536,17 @@ a {
 
     align-items: center;
 
-    gap: 28px;
+    gap: 20px;
 
     background: linear-gradient(180deg,
             #0f172a,
             #1e293b);
 
-    padding: 35px;
+    padding: 28px 24px;
 
-    border-radius: 24px;
+    border-radius: 20px;
 
-    border: 3px solid rgba(255, 255, 255, .08);
+    border: 2px solid rgba(255, 255, 255, .06);
 
     overflow: hidden;
 
@@ -503,21 +561,21 @@ a {
 
     position: absolute;
 
-    left: 35px;
+    left: 24px;
 
-    right: 35px;
+    right: 24px;
 
     top: 50%;
 
     transform: translateY(-50%);
 
-    height: 4px;
+    height: 3px;
 
     background: gold;
 
     border-radius: 20px;
 
-    opacity: .75;
+    opacity: .7;
 
     z-index: 50;
 
@@ -532,23 +590,25 @@ a {
 
     position: relative;
 
-    width: 160px;
+    width: 140px;
 
-    height: 180px;
+    height: 160px;
 
     overflow: hidden;
 
-    border-radius: 18px;
+    border-radius: 14px;
 
     background: white;
 
-    border: 4px solid #d1d5db;
+    border: 3px solid #d1d5db;
 
     box-shadow:
 
-        inset 0 0 25px rgba(0, 0, 0, .20),
+        inset 0 0 20px rgba(0, 0, 0, .18),
 
-        0 15px 25px rgba(0, 0, 0, .35);
+        0 12px 20px rgba(0, 0, 0, .30);
+
+    flex-shrink: 0;
 
 }
 
@@ -567,13 +627,13 @@ a {
 
     background:
 
-        linear-gradient(rgba(255, 255, 255, .30),
+        linear-gradient(rgba(255, 255, 255, .25),
 
             transparent 25%,
 
             transparent 75%,
 
-            rgba(0, 0, 0, .12));
+            rgba(0, 0, 0, .10));
 
     pointer-events: none;
 
@@ -605,13 +665,15 @@ a {
 
 .reel-symbol {
 
-    height: 180px;
+    height: 160px;
 
     display: flex;
 
     justify-content: center;
 
     align-items: center;
+
+    flex-shrink: 0;
 
 }
 
@@ -622,9 +684,9 @@ a {
 
 .reel-symbol img {
 
-    width: 95px;
+    width: 80px;
 
-    height: 95px;
+    height: 80px;
 
     object-fit: contain;
 
@@ -641,37 +703,9 @@ a {
 
     box-shadow:
 
-        0 0 30px rgba(59, 130, 246, .60),
+        0 0 30px rgba(59, 130, 246, .55),
 
-        inset 0 0 20px rgba(255, 255, 255, .20);
-
-}
-
-
-.slot.spinning .reel {
-
-    animation: reelSpin .10s linear infinite;
-
-}
-
-
-/*======================================================
-        REEL ANIMATION
-======================================================*/
-
-@keyframes reelSpin {
-
-    from {
-
-        transform: translateY(0);
-
-    }
-
-    to {
-
-        transform: translateY(-180px);
-
-    }
+        inset 0 0 16px rgba(255, 255, 255, .15);
 
 }
 
@@ -735,7 +769,7 @@ a {
 
         box-shadow:
 
-            0 0 40px rgba(34, 197, 94, .95);
+            0 0 40px rgba(34, 197, 94, .90);
 
     }
 
@@ -763,7 +797,7 @@ a {
 
     50% {
 
-        transform: scale(1.08);
+        transform: scale(1.06);
 
     }
 
@@ -782,13 +816,13 @@ a {
 
 .result {
 
-    margin-top: 30px;
+    margin-top: 22px;
 
-    min-height: 40px;
+    min-height: 36px;
 
     text-align: center;
 
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 
     font-weight: 600;
 
@@ -830,7 +864,7 @@ a {
 
     50% {
 
-        transform: scale(1.08);
+        transform: scale(1.06);
 
     }
 
@@ -842,8 +876,9 @@ a {
 
 }
 
+
 /*=========================================
-        FINAL EFFECTS
+        MACHINE GLOW
 ==========================================*/
 
 .machine.machine-spin {
@@ -876,6 +911,555 @@ a {
 
 }
 
+
+/* LED light active state */
+
+.machine-lights span.active {
+
+    background: #fbbf24;
+
+    box-shadow:
+
+        0 0 18px rgba(251, 191, 36, .95),
+
+        0 0 35px rgba(251, 191, 36, .6);
+
+}
+
+
+/*======================================================
+            SIDE PANEL (right column)
+======================================================*/
+
+.side-panel {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    background: linear-gradient(145deg,
+            #1e293b,
+            #0f172a);
+
+    border-radius: 20px;
+
+    padding: 22px 20px 24px;
+
+    border: 1px solid rgba(255, 255, 255, .05);
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* Desktop stats */
+
+.desktop-stats {
+
+    display: block;
+
+}
+
+.stat-row {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr 1fr;
+
+    gap: 8px;
+
+}
+
+.stat-item {
+
+    background: rgba(255, 255, 255, .04);
+
+    border-radius: 12px;
+
+    padding: 10px 8px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, .04);
+
+}
+
+.stat-label {
+
+    display: block;
+
+    font-size: .7rem;
+
+    color: var(--text-light);
+
+    font-weight: 400;
+
+    margin-bottom: 2px;
+
+}
+
+.stat-label i {
+
+    color: var(--primary);
+
+    margin-right: 4px;
+
+}
+
+.stat-value {
+
+    display: block;
+
+    font-size: 1.3rem;
+
+    font-weight: 700;
+
+    color: var(--primary);
+
+}
+
+
+/* Bet section */
+
+.bet-section {
+
+    background: rgba(255, 255, 255, .03);
+
+    border-radius: 14px;
+
+    padding: 12px 10px;
+
+    border: 1px solid rgba(255, 255, 255, .04);
+
+}
+
+.bet-controls {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 14px;
+
+}
+
+.control-btn {
+
+    width: 46px;
+
+    height: 46px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    color: white;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    box-shadow: var(--shadow);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+}
+
+.control-btn:hover {
+
+    background: var(--primary);
+
+    transform: translateY(-2px);
+
+}
+
+.bet-display {
+
+    text-align: center;
+
+    flex: 1;
+
+    min-width: 0;
+
+}
+
+.bet-label {
+
+    display: block;
+
+    font-size: .7rem;
+
+    color: var(--text-light);
+
+    font-weight: 400;
+
+}
+
+.bet-amount {
+
+    display: block;
+
+    font-size: 1.5rem;
+
+    font-weight: 700;
+
+    color: var(--primary);
+
+    line-height: 1.3;
+
+}
+
+
+/* Action buttons */
+
+.action-buttons {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+.spin-btn {
+
+    width: 100%;
+
+    height: 56px;
+
+    border: none;
+
+    border-radius: 50px;
+
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    color: white;
+
+    font-size: 1.1rem;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    box-shadow: 0 10px 25px rgba(37, 99, 235, .35);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+}
+
+.spin-btn:hover {
+
+    transform: scale(1.02);
+
+}
+
+.spin-btn:active {
+
+    transform: scale(.97);
+
+}
+
+.secondary-actions {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+}
+
+.secondary-btn {
+
+    width: 100%;
+
+    height: 44px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    font-size: .85rem;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+    box-shadow: var(--shadow);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+}
+
+.secondary-btn:hover {
+
+    background: var(--primary);
+
+    color: white;
+
+}
+
+
+/* Payout table in side panel */
+
+.payout-table {
+
+    background: rgba(255, 255, 255, .03);
+
+    border-radius: 14px;
+
+    padding: 14px 12px;
+
+    border: 1px solid rgba(255, 255, 255, .04);
+
+}
+
+.payout-table h3 {
+
+    font-size: .85rem;
+
+    color: var(--text-light);
+
+    margin-bottom: 10px;
+
+    text-align: center;
+
+    font-weight: 500;
+
+}
+
+.payout-table h3 i {
+
+    color: var(--primary);
+
+    margin-right: 6px;
+
+}
+
+.payout-table table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: .8rem;
+
+}
+
+.payout-table thead {
+
+    background: rgba(37, 99, 235, .15);
+
+}
+
+.payout-table th {
+
+    padding: 8px 6px;
+
+    font-weight: 600;
+
+    color: var(--text-light);
+
+    font-size: .7rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+
+}
+
+.payout-table td {
+
+    padding: 7px 6px;
+
+    text-align: center;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .04);
+
+    color: var(--text);
+
+}
+
+.payout-table tbody tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+.payout-table tbody tr:hover {
+
+    background: rgba(37, 99, 235, .08);
+
+}
+
+
+/*======================================================
+                GAME STATISTICS (full width)
+======================================================*/
+
+.statistics {
+
+    margin-top: 0;
+
+    background: var(--surface);
+
+    border-radius: 20px;
+
+    padding: 28px 30px 30px;
+
+    box-shadow: var(--shadow);
+
+}
+
+.statistics h2 {
+
+    text-align: center;
+
+    font-size: 1.2rem;
+
+    margin-bottom: 24px;
+
+    font-weight: 600;
+
+}
+
+.statistics h2 i {
+
+    color: var(--primary);
+
+    margin-right: 10px;
+
+}
+
+.stats-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 16px;
+
+}
+
+.stat-card {
+
+    background: var(--surface-light);
+
+    padding: 18px 12px;
+
+    border-radius: 14px;
+
+    text-align: center;
+
+    transition: .3s;
+
+    border: 1px solid rgba(255, 255, 255, .04);
+
+}
+
+.stat-card:hover {
+
+    transform: translateY(-4px);
+
+}
+
+.stat-card h4 {
+
+    color: var(--text-light);
+
+    margin-bottom: 8px;
+
+    font-weight: 400;
+
+    font-size: .85rem;
+
+}
+
+.stat-card span {
+
+    font-size: 1.6rem;
+
+    font-weight: 700;
+
+    color: var(--primary);
+
+}
+
+
+/*======================================================
+                    FOOTER
+======================================================*/
+
+footer {
+
+    margin-top: 50px;
+
+    background: var(--surface);
+
+    padding: 20px;
+
+    text-align: center;
+
+    color: var(--text-light);
+
+    font-size: .85rem;
+
+    border-top: 1px solid rgba(255, 255, 255, .04);
+
+}
+
+
+/*======================================================
+                BUTTON DISABLED
+======================================================*/
+
+button:disabled {
+
+    opacity: .5;
+
+    cursor: not-allowed;
+
+}
+
+
+/*======================================================
+                CONFETTI
+======================================================*/
 
 .confetti {
 
@@ -910,479 +1494,288 @@ a {
 }
 
 
-/* LED light active state */
-
-.machine-lights span.active {
-
-    background: #fbbf24;
-
-    box-shadow:
-
-        0 0 18px rgba(251, 191, 36, .95),
-
-        0 0 35px rgba(251, 191, 36, .6);
-
-}
-
-/*======================================================
-                    CONTROLS
-======================================================*/
-
-.controls {
-
-    margin-top: 45px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 22px;
-
-}
-
-.bet-controls {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 18px;
-
-}
-
-.control-btn {
-
-    width: 60px;
-
-    height: 60px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background: var(--surface);
-
-    color: white;
-
-    font-size: 1.2rem;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-    box-shadow: var(--shadow);
-
-}
-
-.control-btn:hover {
-
-    background: var(--primary);
-
-    transform: translateY(-4px);
-
-}
-
-.spin-btn {
-
-    width: 260px;
-
-    height: 65px;
-
-    border: none;
-
-    border-radius: 50px;
-
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-
-    color: white;
-
-    font-size: 1.2rem;
-
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-    box-shadow: 0 12px 25px rgba(37, 99, 235, .35);
-
-}
-
-.spin-btn:hover {
-
-    transform: scale(1.04);
-
-}
-
-.spin-btn:active {
-
-    transform: scale(.97);
-
-}
-
-.secondary-btn {
-
-    width: 260px;
-
-    height: 58px;
-
-    border: none;
-
-    border-radius: 15px;
-
-    background: var(--surface);
-
-    color: var(--text);
-
-    font-size: 1rem;
-
-    font-weight: 600;
-
-    cursor: pointer;
-
-    transition: .3s;
-
-    box-shadow: var(--shadow);
-
-}
-
-.secondary-btn:hover {
-
-    background: var(--primary);
-
-    color: white;
-
-}
-
-
-/*======================================================
-                GAME STATISTICS
-======================================================*/
-
-.statistics {
-
-    margin-top: 60px;
-
-    background: var(--surface);
-
-    border-radius: 22px;
-
-    padding: 35px;
-
-    box-shadow: var(--shadow);
-
-}
-
-.statistics h2 {
-
-    text-align: center;
-
-    margin-bottom: 35px;
-
-}
-
-.stats-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 20px;
-
-}
-
-.stat-card {
-
-    background: var(--surface-light);
-
-    padding: 25px;
-
-    border-radius: 18px;
-
-    text-align: center;
-
-    transition: .3s;
-
-    border: 1px solid rgba(255, 255, 255, .06);
-
-}
-
-.stat-card:hover {
-
-    transform: translateY(-6px);
-
-}
-
-.stat-card h4 {
-
-    color: var(--text-light);
-
-    margin-bottom: 15px;
-
-    font-weight: 500;
-
-}
-
-.stat-card span {
-
-    font-size: 2rem;
-
-    font-weight: 700;
-
-    color: var(--primary);
-
-}
-
-
-/*======================================================
-                    PAYOUT TABLE
-======================================================*/
-
-.payout-table {
-
-    margin-top: 60px;
-
-    background: var(--surface);
-
-    padding: 35px;
-
-    border-radius: 22px;
-
-    box-shadow: var(--shadow);
-
-}
-
-.payout-table h2 {
-
-    text-align: center;
-
-    margin-bottom: 30px;
-
-}
-
-.payout-table table {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    overflow: hidden;
-
-    border-radius: 15px;
-
-}
-
-.payout-table thead {
-
-    background: linear-gradient(135deg,
-
-            var(--primary),
-
-            var(--primary-dark));
-
-    color: white;
-
-}
-
-.payout-table th {
-
-    padding: 18px;
-
-    font-weight: 600;
-
-}
-
-.payout-table td {
-
-    padding: 18px;
-
-    text-align: center;
-
-    border-bottom: 1px solid rgba(255, 255, 255, .05);
-
-}
-
-.payout-table tbody tr {
-
-    transition: .3s;
-
-}
-
-.payout-table tbody tr:hover {
-
-    background: rgba(37, 99, 235, .12);
-
-}
-
-
-/*======================================================
-                    RESULT
-======================================================*/
-
-.result {
-
-    margin-top: 25px;
-
-    font-size: 1.3rem;
-
-    font-weight: 600;
-
-    text-align: center;
-
-    min-height: 40px;
-
-    color: var(--primary);
-
-    transition: .3s;
-
-}
-
-.result.win {
-
-    color: #22c55e;
-
-}
-
-.result.lose {
-
-    color: #ef4444;
-
-}
-
-.result.jackpot {
-
-    color: #facc15;
-
-    animation: jackpotText .6s infinite alternate;
-
-}
-
-@keyframes jackpotText {
-
-    from {
-
-        transform: scale(1);
-
-    }
-
-    to {
-
-        transform: scale(1.08);
-
-    }
-
-}
-
-
-/*======================================================
-                    FOOTER
-======================================================*/
-
-footer {
-
-    margin-top: 70px;
-
-    background: var(--surface);
-
-    padding: 25px;
-
-    text-align: center;
-
-    color: var(--text-light);
-
-    font-size: .95rem;
-
-    border-top: 1px solid rgba(255, 255, 255, .06);
-
-}
-
-
-/*======================================================
-                BUTTON DISABLED
-======================================================*/
-
-button:disabled {
-
-    opacity: .5;
-
-    cursor: not-allowed;
-
-}
-
-
 /*======================================================
                     RESPONSIVE
 ======================================================*/
 
-@media(max-width:1000px) {
+/* Tablet & smaller desktop */
 
-    .stats-grid {
+@media(max-width:1100px) {
 
-        grid-template-columns: repeat(2, 1fr);
+    .game-layout {
+
+        grid-template-columns: 1fr 300px;
+
+        gap: 22px;
+
+    }
+
+    .slot {
+
+        width: 120px;
+
+        height: 140px;
+
+    }
+
+    .reel-symbol {
+
+        height: 140px;
+
+    }
+
+    .reel-symbol img {
+
+        width: 68px;
+
+        height: 68px;
+
+    }
+
+    .machine {
+
+        padding: 22px 20px 24px;
+
+    }
+
+    .slot-frame {
+
+        gap: 14px;
+
+        padding: 20px 16px;
+
+    }
+
+    .payline {
+
+        left: 16px;
+
+        right: 16px;
+
+    }
+
+    .side-panel {
+
+        padding: 18px 14px 20px;
 
     }
 
 }
 
 
-@media(max-width:768px) {
+/* Mobile & small tablets */
 
-    .controls {
+@media(max-width:820px) {
 
-        gap: 18px;
-
-    }
-
-    .spin-btn,
-
-    .secondary-btn {
-
-        width: 100%;
-
-        max-width: 320px;
-
-    }
-
-    .stats-grid {
+    .game-layout {
 
         grid-template-columns: 1fr;
 
-    }
-
-    .payout-table {
-
-        overflow-x: auto;
+        gap: 24px;
 
     }
 
-    .payout-table table {
+    .side-panel {
 
-        min-width: 500px;
+        order: 2;
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 14px;
+
+        padding: 18px 16px 20px;
 
     }
 
-}
+    .side-panel .desktop-stats {
 
+        grid-column: 1 / -1;
 
-@media(max-width:500px) {
+    }
+
+    .side-panel .bet-section {
+
+        grid-column: 1 / -1;
+
+    }
+
+    .side-panel .action-buttons {
+
+        grid-column: 1 / -1;
+
+    }
+
+    .side-panel .payout-table {
+
+        grid-column: 1 / -1;
+
+    }
+
+    .desktop-stats {
+
+        display: block;
+
+    }
+
+    .mobile-stats {
+
+        display: grid;
+
+    }
+
+    /* Hide desktop stats on mobile */
+
+    .desktop-stats .stat-row {
+
+        grid-template-columns: 1fr 1fr 1fr;
+
+        gap: 6px;
+
+    }
+
+    .desktop-stats .stat-item {
+
+        padding: 8px 6px;
+
+    }
+
+    .desktop-stats .stat-value {
+
+        font-size: 1.1rem;
+
+    }
+
+    .slot-machine {
+
+        order: 1;
+
+    }
+
+    .statistics {
+
+        order: 3;
+
+    }
+
+    .machine {
+
+        max-width: 100%;
+
+        padding: 20px 16px 22px;
+
+    }
+
+    .slot {
+
+        width: 100px;
+
+        height: 120px;
+
+    }
+
+    .reel-symbol {
+
+        height: 120px;
+
+    }
+
+    .reel-symbol img {
+
+        width: 56px;
+
+        height: 56px;
+
+    }
+
+    .slot-frame {
+
+        gap: 10px;
+
+        padding: 16px 12px;
+
+    }
+
+    .payline {
+
+        left: 12px;
+
+        right: 12px;
+
+        height: 2px;
+
+    }
+
+    .machine-header h2 {
+
+        font-size: 1.3rem;
+
+    }
+
+    .machine-header p {
+
+        font-size: .8rem;
+
+    }
+
+    .machine-lights {
+
+        gap: 6px;
+
+        margin-bottom: 14px;
+
+    }
+
+    .machine-lights span {
+
+        width: 10px;
+
+        height: 10px;
+
+    }
+
+    .result {
+
+        font-size: 1rem;
+
+        margin-top: 16px;
+
+        min-height: 30px;
+
+    }
+
+    .side-panel {
+
+        padding: 16px 14px 18px;
+
+    }
+
+    .bet-controls {
+
+        gap: 10px;
+
+    }
 
     .control-btn {
 
-        width: 52px;
+        width: 40px;
 
-        height: 52px;
+        height: 40px;
+
+        font-size: .9rem;
+
+    }
+
+    .bet-amount {
+
+        font-size: 1.3rem;
 
     }
 
     .spin-btn {
 
-        height: 60px;
+        height: 50px;
 
         font-size: 1rem;
 
@@ -1390,22 +1783,314 @@ button:disabled {
 
     .secondary-btn {
 
-        height: 55px;
+        height: 40px;
+
+        font-size: .8rem;
 
     }
 
-    .statistics,
+    .statistics {
+
+        padding: 20px 16px 22px;
+
+    }
+
+    .statistics h2 {
+
+        font-size: 1rem;
+
+        margin-bottom: 18px;
+
+    }
+
+    .stats-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 12px;
+
+    }
+
+    .stat-card {
+
+        padding: 14px 10px;
+
+    }
+
+    .stat-card span {
+
+        font-size: 1.3rem;
+
+    }
+
+    .stat-card h4 {
+
+        font-size: .75rem;
+
+    }
+
+}
+
+
+/* ============================================================
+       FIX: Mobile responsiveness for slot images (480px and below)
+       ============================================================ */
+
+@media(max-width:480px) {
+
+    .container {
+        width: 96%;
+        margin: 16px auto;
+    }
+
+    .header {
+        padding: 12px 4%;
+    }
+
+    .logo i {
+        font-size: 28px;
+    }
+
+    .logo h1 {
+        font-size: 1.3rem;
+    }
+
+    .logo p {
+        font-size: .7rem;
+    }
+
+    .mobile-stats {
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .mobile-stats .panel-card {
+        padding: 12px 8px;
+        border-radius: 12px;
+    }
+
+    .mobile-stats .panel-card h3 {
+        font-size: .65rem;
+    }
+
+    .mobile-stats .panel-card span {
+        font-size: 1.2rem;
+    }
+
+    .machine {
+        padding: 14px 10px 16px;
+        border-radius: 18px;
+    }
+
+    .machine-header {
+        margin-bottom: 14px;
+    }
+
+    .machine-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .machine-header p {
+        font-size: .7rem;
+    }
+
+    /* Audio button adjustment */
+    .audio-control {
+        top: 10px;
+        right: 12px;
+    }
+    .audio-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+
+    /* --- FIXED: Slot & symbols with proper sizing --- */
+    .slot {
+        width: clamp(76px, 22vw, 92px);
+        height: clamp(92px, 26vw, 110px);
+        border-radius: 10px;
+        border-width: 2px;
+    }
+
+    .reel-symbol {
+        height: clamp(92px, 26vw, 110px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .reel-symbol img {
+        width: clamp(48px, 14vw, 64px);
+        height: clamp(48px, 14vw, 64px);
+        object-fit: contain;
+        display: block;
+    }
+
+    .slot-frame {
+        gap: clamp(5px, 1.8vw, 10px);
+        padding: 12px 8px;
+        border-radius: 14px;
+    }
+
+    .payline {
+        left: 8px;
+        right: 8px;
+        height: 2px;
+    }
+
+    .machine-lights {
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .machine-lights span {
+        width: 8px;
+        height: 8px;
+    }
+
+    .result {
+        font-size: .85rem;
+        margin-top: 12px;
+        min-height: 26px;
+    }
+
+    .side-panel {
+        padding: 14px 10px 16px;
+        gap: 10px;
+        border-radius: 16px;
+    }
+
+    .desktop-stats .stat-item {
+        padding: 6px 4px;
+    }
+
+    .desktop-stats .stat-label {
+        font-size: .6rem;
+    }
+
+    .desktop-stats .stat-value {
+        font-size: 1rem;
+    }
+
+    .bet-controls {
+        gap: 8px;
+    }
+
+    .control-btn {
+        width: 34px;
+        height: 34px;
+        font-size: .75rem;
+    }
+
+    .bet-label {
+        font-size: .6rem;
+    }
+
+    .bet-amount {
+        font-size: 1.1rem;
+    }
+
+    .spin-btn {
+        height: 44px;
+        font-size: .9rem;
+        border-radius: 40px;
+    }
+
+    .secondary-btn {
+        height: 36px;
+        font-size: .7rem;
+        border-radius: 10px;
+    }
+
+    .secondary-actions {
+        gap: 6px;
+    }
 
     .payout-table {
+        padding: 10px 8px;
+    }
 
-        padding: 20px;
+    .payout-table h3 {
+        font-size: .75rem;
+    }
 
+    .payout-table table {
+        font-size: .7rem;
+    }
+
+    .payout-table th,
+    .payout-table td {
+        padding: 5px 4px;
+    }
+
+    .statistics {
+        padding: 16px 12px 18px;
+        border-radius: 16px;
+    }
+
+    .statistics h2 {
+        font-size: .9rem;
+        margin-bottom: 14px;
+    }
+
+    .stats-grid {
+        gap: 8px;
+    }
+
+    .stat-card {
+        padding: 10px 8px;
+        border-radius: 10px;
+    }
+
+    .stat-card span {
+        font-size: 1.1rem;
+    }
+
+    .stat-card h4 {
+        font-size: .65rem;
     }
 
     footer {
+        margin-top: 30px;
+        padding: 14px;
+        font-size: .7rem;
+    }
 
-        font-size: .85rem;
+}
 
+
+/* Extra small phones */
+
+@media(max-width:380px) {
+
+    .slot {
+        width: clamp(64px, 19vw, 76px);
+        height: clamp(78px, 23vw, 92px);
+    }
+
+    .reel-symbol {
+        height: clamp(78px, 23vw, 92px);
+    }
+
+    .reel-symbol img {
+        width: clamp(36px, 11vw, 48px);
+        height: clamp(36px, 11vw, 48px);
+    }
+
+    .slot-frame {
+        gap: clamp(3px, 1vw, 6px);
+        padding: 8px 6px;
+    }
+
+    .payline {
+        left: 6px;
+        right: 6px;
+    }
+
+    .machine-header h2 {
+        font-size: .95rem;
     }
 
 }

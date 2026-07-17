@@ -62,14 +62,36 @@ let spinning = false;
 
 let autoSpin = null;
 
+let spinIntervals = {};
+
 
 /*=========================================================
     REEL SETTINGS
 =========================================================*/
 
-const SYMBOL_HEIGHT = 180;
+// Get symbol height dynamically based on viewport
+function getSymbolHeight() {
+    const w = window.innerWidth;
+    if (w <= 380) return Math.min(Math.max(78, 23 * w / 100), 92);
+    if (w <= 480) return Math.min(Math.max(92, 26 * w / 100), 110);
+    if (w <= 820) return 120;
+    if (w <= 1100) return 140;
+    return 160;
+}
+
+let SYMBOL_HEIGHT = getSymbolHeight();
 
 const REEL_SYMBOLS = 35;
+
+// --- Audio setup ---
+const spinSound = new Audio('electric-slot-machine.mp3');
+const winSound = new Audio('coin-win.wav');
+const jackpotSound = new Audio('jackpot.mp3');
+
+// Preload sounds (optional)
+spinSound.load();
+winSound.load();
+jackpotSound.load();
 
 
 /*=========================================================
@@ -95,19 +117,22 @@ const decreaseBet = document.getElementById("decreaseBet");
 const resultMessage = document.getElementById("resultMessage");
 
 
+// Mobile stats
 const coinsDisplay = document.getElementById("coins");
-
 const betDisplay = document.getElementById("betValue");
-
-const totalSpinsDisplay = document.getElementById("totalSpins");
-
-const winsDisplay = document.getElementById("wins");
-
-const lossesDisplay = document.getElementById("losses");
-
-const highestWinDisplay = document.getElementById("highestWin");
-
 const winRateDisplay = document.getElementById("winRate");
+
+// Desktop stats
+const coinsDesktop = document.getElementById("coinsDesktop");
+const betDesktop = document.getElementById("betDesktop");
+const winRateDesktop = document.getElementById("winRateDesktop");
+const betDisplayDesktop = document.getElementById("betDisplay");
+
+// Statistics
+const totalSpinsDisplay = document.getElementById("totalSpins");
+const winsDisplay = document.getElementById("wins");
+const lossesDisplay = document.getElementById("losses");
+const highestWinDisplay = document.getElementById("highestWin");
 
 
 /*=========================================================
@@ -131,6 +156,8 @@ function buildReel(reel) {
 
     reel.innerHTML = "";
 
+    const h = getSymbolHeight();
+
     for (let i = 0; i < REEL_SYMBOLS; i++) {
 
         const symbol = randomSymbol();
@@ -140,6 +167,8 @@ function buildReel(reel) {
         item.className = "reel-symbol";
 
         item.dataset.name = symbol.name;
+
+        item.style.height = h + "px";
 
         item.innerHTML = `
 
@@ -163,6 +192,8 @@ function buildReel(reel) {
 
 function initializeReels() {
 
+    SYMBOL_HEIGHT = getSymbolHeight();
+
     reels.forEach(reel => {
 
         buildReel(reel);
@@ -178,27 +209,29 @@ function initializeReels() {
 
 function updateUI() {
 
-    coinsDisplay.textContent = coins;
-
-    betDisplay.textContent = bet;
-
-    totalSpinsDisplay.textContent = totalSpins;
-
-    winsDisplay.textContent = wins;
-
-    lossesDisplay.textContent = losses;
-
-    highestWinDisplay.textContent = highestWin;
-
+    const coinValue = coins;
+    const betValue = bet;
     const rate =
+        totalSpins === 0 ?
+        0 :
+        ((wins / totalSpins) * 100).toFixed(1);
 
-        totalSpins === 0
-
-            ? 0
-
-            : ((wins / totalSpins) * 100).toFixed(1);
-
+    // Mobile stats
+    coinsDisplay.textContent = coinValue;
+    betDisplay.textContent = betValue;
     winRateDisplay.textContent = rate + "%";
+
+    // Desktop stats
+    coinsDesktop.textContent = coinValue;
+    betDesktop.textContent = betValue;
+    winRateDesktop.textContent = rate + "%";
+    betDisplayDesktop.textContent = betValue;
+
+    // Statistics
+    totalSpinsDisplay.textContent = totalSpins;
+    winsDisplay.textContent = wins;
+    lossesDisplay.textContent = losses;
+    highestWinDisplay.textContent = highestWin;
 
 }
 
@@ -297,6 +330,14 @@ function resetGame() {
 
     totalWon = 0;
 
+    // Stop any playing audio
+    spinSound.pause();
+    spinSound.currentTime = 0;
+    winSound.pause();
+    winSound.currentTime = 0;
+    jackpotSound.pause();
+    jackpotSound.currentTime = 0;
+
     localStorage.removeItem("codespin");
 
     updateUI();
@@ -375,6 +416,9 @@ function createSymbol(symbol) {
 
     div.dataset.name = symbol.name;
 
+    const h = getSymbolHeight();
+    div.style.height = h + "px";
+
     div.innerHTML = `
 
         <img src="${symbol.image}"
@@ -408,17 +452,13 @@ function prepareReel(reel) {
 
     reel.innerHTML = "";
 
+    const h = getSymbolHeight();
+
     for (let i = 0; i < REEL_SYMBOLS; i++) {
 
-        reel.appendChild(
-
-            createSymbol(
-
-                randomSymbol()
-
-            )
-
-        );
+        const el = createSymbol(randomSymbol());
+        el.style.height = h + "px";
+        reel.appendChild(el);
 
     }
 
@@ -457,7 +497,8 @@ function spinReel(
 
     finalSymbol,
 
-    duration
+    duration,
+    easing = 'cubic-bezier(.18,.85,.22,1)'
 
 ) {
 
@@ -481,13 +522,13 @@ function spinReel(
 
     );
 
-    const distance =
+    const h = getSymbolHeight();
 
-        -(24 * SYMBOL_HEIGHT);
+    const distance = -(24 * h);
 
     reel.style.transition =
 
-        `transform ${duration}ms cubic-bezier(.18,.85,.22,1)`;
+        `transform ${duration}ms ${easing}`;
 
     reel.style.transform =
 
@@ -515,6 +556,10 @@ function spin() {
 
     }
 
+    // Play spin sound (restart if already playing)
+    spinSound.currentTime = 0;
+    spinSound.play().catch(e => console.log('Spin audio error:', e));
+
     spinning = true;
 
     coins -= bet;
@@ -535,13 +580,14 @@ function spin() {
 
     const finalThree = randomSymbol();
 
+    // --- 5-second spin with dramatic slow-down on reel 3 ---
     spinReel(
 
         reel1,
 
         finalOne,
 
-        1700
+        1000
 
     );
 
@@ -551,7 +597,7 @@ function spin() {
 
         finalTwo,
 
-        2200
+        2000
 
     );
 
@@ -561,7 +607,8 @@ function spin() {
 
         finalThree,
 
-        2700
+        5000,
+        'cubic-bezier(.05, .85, .0, 1)'
 
     );
 
@@ -579,7 +626,7 @@ function spin() {
 
         );
 
-    }, 1700);
+    }, 1000);
 
 
     setTimeout(() => {
@@ -596,7 +643,7 @@ function spin() {
 
         );
 
-    }, 2200);
+    }, 2000);
 
 
     setTimeout(() => {
@@ -627,7 +674,7 @@ function spin() {
 
         saveGame();
 
-    }, 2700);
+    }, 5000);
 
 }
 
@@ -688,13 +735,13 @@ function checkWin(symbol1, symbol2, symbol3) {
 
         message = `
 
-            🎉 JACKPOT!<br>
+                    🎉 JACKPOT!<br>
 
-            ${symbol1.name} × 3<br>
+                    ${symbol1.name} × 3<br>
 
-            +${reward} Coins
+                    +${reward} Coins
 
-        `;
+                `;
 
         slots.forEach(slot => {
 
@@ -706,14 +753,13 @@ function checkWin(symbol1, symbol2, symbol3) {
 
         resultMessage.className = "result jackpot";
 
-    }
+        jackpotSound.currentTime = 0;
+        jackpotSound.play().catch(e => console.log('Jackpot audio error:', e));
 
-    else if (
+    } else if (
 
         symbol1.name === symbol2.name ||
-
         symbol1.name === symbol3.name ||
-
         symbol2.name === symbol3.name
 
     ) {
@@ -740,17 +786,17 @@ function checkWin(symbol1, symbol2, symbol3) {
 
         message = `
 
-            ✅ Match!
+                    ✅ Match!
 
-            <br>
+                    <br>
 
-            ${match}
+                    ${match}
 
-            <br>
+                    <br>
 
-            +${reward} Coins
+                    +${reward} Coins
 
-        `;
+                `;
 
         slots.forEach(slot => {
 
@@ -760,21 +806,22 @@ function checkWin(symbol1, symbol2, symbol3) {
 
         resultMessage.className = "result win";
 
-    }
+        winSound.currentTime = 0;
+        winSound.play().catch(e => console.log('Win audio error:', e));
 
-    else {
+    } else {
 
         losses++;
 
         message = `
 
-            ❌ No Match
+                    ❌ No Match
 
-            <br>
+                    <br>
 
-            Better luck next spin!
+                    Better luck next spin!
 
-        `;
+                `;
 
         resultMessage.className = "result lose";
 
@@ -824,19 +871,19 @@ function clearEffects() {
 
     document.querySelectorAll(".slot")
 
-        .forEach(slot => {
+    .forEach(slot => {
 
-            slot.classList.remove(
+        slot.classList.remove(
 
-                "winner",
+            "winner",
 
-                "jackpot",
+            "jackpot",
 
-                "stop"
+            "stop"
 
-            );
+        );
 
-        });
+    });
 
 }
 
@@ -844,7 +891,7 @@ function clearEffects() {
     AUTO SPIN
 =========================================================*/
 
-autoSpinButton.onclick = function () {
+autoSpinButton.onclick = function() {
 
     if (autoSpin === null) {
 
@@ -860,11 +907,9 @@ autoSpinButton.onclick = function () {
 
             }
 
-        }, 3500);
+        }, 5500);
 
-    }
-
-    else {
+    } else {
 
         clearInterval(autoSpin);
 
@@ -886,7 +931,7 @@ document.addEventListener(
 
     "keydown",
 
-    function (e) {
+    function(e) {
 
         if (e.code === "Space") {
 
@@ -982,6 +1027,7 @@ function animateCoins(target) {
         );
 
         coinsDisplay.textContent = value;
+        coinsDesktop.textContent = value;
 
         if (progress < 1) {
 
@@ -990,6 +1036,7 @@ function animateCoins(target) {
         } else {
 
             coinsDisplay.textContent = target;
+            coinsDesktop.textContent = target;
 
         }
 
@@ -1047,7 +1094,7 @@ function createConfetti() {
 
 const originalSpin = spin;
 
-spin = function () {
+spin = function() {
 
     if (spinning) return;
 
@@ -1063,7 +1110,7 @@ spin = function () {
         document.querySelector('.machine')
             .classList.remove('machine-spin');
 
-    }, 3000);
+    }, 5200);
 
 };
 
@@ -1074,7 +1121,7 @@ spin = function () {
 
 const originalCheckWin = checkWin;
 
-checkWin = function (a, b, c) {
+checkWin = function(a, b, c) {
 
     originalCheckWin(a, b, c);
 
@@ -1128,6 +1175,77 @@ function stopAutoSpin() {
 }
 
 window.addEventListener('beforeunload', stopAutoSpin);
+
+
+/*=========================================================
+    HANDLE RESIZE – rebuild reels with correct height
+=========================================================*/
+
+let resizeTimeout;
+
+window.addEventListener('resize', function() {
+
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        const newHeight = getSymbolHeight();
+        if (Math.abs(newHeight - SYMBOL_HEIGHT) > 2) {
+            SYMBOL_HEIGHT = newHeight;
+            // Only rebuild if not spinning
+            if (!spinning) {
+                initializeReels();
+                // Re-apply current result message style
+                const msg = resultMessage.innerHTML;
+                resultMessage.innerHTML = msg;
+            }
+        }
+    }, 300);
+
+});
+
+
+/*=========================================================
+    AUDIO TOGGLE (MUTE/UNMUTE)
+=========================================================*/
+
+let isMuted = false;
+
+// Load mute state from localStorage if available
+const savedMute = localStorage.getItem("codespin_mute");
+if (savedMute !== null) {
+    isMuted = savedMute === "true";
+}
+
+const audioToggle = document.getElementById("audioToggle");
+const audioIcon = audioToggle.querySelector("i");
+
+// Apply initial mute state
+function applyMuteState() {
+    if (isMuted) {
+        audioToggle.classList.add("muted");
+        audioIcon.className = "fas fa-volume-mute";
+        // Mute all audio elements
+        spinSound.muted = true;
+        winSound.muted = true;
+        jackpotSound.muted = true;
+    } else {
+        audioToggle.classList.remove("muted");
+        audioIcon.className = "fas fa-volume-up";
+        spinSound.muted = false;
+        winSound.muted = false;
+        jackpotSound.muted = false;
+    }
+    localStorage.setItem("codespin_mute", String(isMuted));
+}
+
+// Toggle mute on button click
+audioToggle.addEventListener("click", function(e) {
+    e.stopPropagation();
+    isMuted = !isMuted;
+    applyMuteState();
+});
+
+// Initialize mute state
+applyMuteState();
 
 
 /*=========================================================
