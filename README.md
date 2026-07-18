@@ -3,7 +3,7 @@
 ## Team Members
 
 - Student 1: Caryl C. Tabigne - 02-2425-014423
-- Student 2: Jessriel Tadang - [Student ID]
+- Student 2: Jessriel B. Tadang - 02-2223-05043
 
 ## Project Title and Theme
 
