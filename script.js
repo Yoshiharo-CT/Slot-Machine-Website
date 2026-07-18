@@ -1,42 +1,33 @@
 /*=========================================================
-    CODESPIN
-    Programming Language Slot Machine
-    PART 3A - GAME SETUP
-=========================================================*/
-
-/*=========================================================
     PROGRAMMING LANGUAGE SYMBOLS
 =========================================================*/
 
 const symbols = [
+  {
+    name: "Python",
+    image: "python.jpg",
+  },
 
-    {
-        name: "Python",
-        image: "python.jpg"
-    },
+  {
+    name: "Java",
+    image: "java.png",
+  },
 
-    {
-        name: "Java",
-        image: "java.png"
-    },
+  {
+    name: "PHP",
+    image: "php.jpg",
+  },
 
-    {
-        name: "PHP",
-        image: "php.jpg"
-    },
+  {
+    name: "C#",
+    image: "csharp.png",
+  },
 
-    {
-        name: "C#",
-        image: "csharp.png"
-    },
-
-    {
-        name: "TypeScript",
-        image: "typescript.png"
-    }
-
+  {
+    name: "TypeScript",
+    image: "typescript.png",
+  },
 ];
-
 
 /*=========================================================
     GAME VARIABLES
@@ -64,19 +55,18 @@ let autoSpin = null;
 
 let spinIntervals = {};
 
-
 /*=========================================================
     REEL SETTINGS
 =========================================================*/
 
 // Get symbol height dynamically based on viewport
 function getSymbolHeight() {
-    const w = window.innerWidth;
-    if (w <= 380) return Math.min(Math.max(78, 23 * w / 100), 92);
-    if (w <= 480) return Math.min(Math.max(92, 26 * w / 100), 110);
-    if (w <= 820) return 120;
-    if (w <= 1100) return 140;
-    return 160;
+  const w = window.innerWidth;
+  if (w <= 380) return Math.min(Math.max(78, (23 * w) / 100), 92);
+  if (w <= 480) return Math.min(Math.max(92, (26 * w) / 100), 110);
+  if (w <= 820) return 120;
+  if (w <= 1100) return 140;
+  return 160;
 }
 
 let SYMBOL_HEIGHT = getSymbolHeight();
@@ -84,15 +74,14 @@ let SYMBOL_HEIGHT = getSymbolHeight();
 const REEL_SYMBOLS = 35;
 
 // --- Audio setup ---
-const spinSound = new Audio('electric-slot-machine.mp3');
-const winSound = new Audio('coin-win.wav');
-const jackpotSound = new Audio('jackpot.mp3');
+const spinSound = new Audio("electric-slot-machine.mp3");
+const winSound = new Audio("coin-win.wav");
+const jackpotSound = new Audio("jackpot.mp3");
 
 // Preload sounds (optional)
 spinSound.load();
 winSound.load();
 jackpotSound.load();
-
 
 /*=========================================================
     DOM ELEMENTS
@@ -116,7 +105,6 @@ const decreaseBet = document.getElementById("decreaseBet");
 
 const resultMessage = document.getElementById("resultMessage");
 
-
 // Mobile stats
 const coinsDisplay = document.getElementById("coins");
 const betDisplay = document.getElementById("betValue");
@@ -134,43 +122,35 @@ const winsDisplay = document.getElementById("wins");
 const lossesDisplay = document.getElementById("losses");
 const highestWinDisplay = document.getElementById("highestWin");
 
-
 /*=========================================================
     RANDOM SYMBOL
 =========================================================*/
 
 function randomSymbol() {
-
-    return symbols[
-        Math.floor(Math.random() * symbols.length)
-    ];
-
+  return symbols[Math.floor(Math.random() * symbols.length)];
 }
-
 
 /*=========================================================
     BUILD REEL
 =========================================================*/
 
 function buildReel(reel) {
+  reel.innerHTML = "";
 
-    reel.innerHTML = "";
+  const h = getSymbolHeight();
 
-    const h = getSymbolHeight();
+  for (let i = 0; i < REEL_SYMBOLS; i++) {
+    const symbol = randomSymbol();
 
-    for (let i = 0; i < REEL_SYMBOLS; i++) {
+    const item = document.createElement("div");
 
-        const symbol = randomSymbol();
+    item.className = "reel-symbol";
 
-        const item = document.createElement("div");
+    item.dataset.name = symbol.name;
 
-        item.className = "reel-symbol";
+    item.style.height = h + "px";
 
-        item.dataset.name = symbol.name;
-
-        item.style.height = h + "px";
-
-        item.innerHTML = `
+    item.innerHTML = `
 
             <img
                 src="${symbol.image}"
@@ -179,211 +159,166 @@ function buildReel(reel) {
 
         `;
 
-        reel.appendChild(item);
-
-    }
-
+    reel.appendChild(item);
+  }
 }
-
 
 /*=========================================================
     BUILD ALL REELS
 =========================================================*/
 
 function initializeReels() {
+  SYMBOL_HEIGHT = getSymbolHeight();
 
-    SYMBOL_HEIGHT = getSymbolHeight();
-
-    reels.forEach(reel => {
-
-        buildReel(reel);
-
-    });
-
+  reels.forEach((reel) => {
+    buildReel(reel);
+  });
 }
-
 
 /*=========================================================
     UPDATE UI
 =========================================================*/
 
 function updateUI() {
+  const coinValue = coins;
+  const betValue = bet;
+  const rate = totalSpins === 0 ? 0 : ((wins / totalSpins) * 100).toFixed(1);
 
-    const coinValue = coins;
-    const betValue = bet;
-    const rate =
-        totalSpins === 0 ?
-        0 :
-        ((wins / totalSpins) * 100).toFixed(1);
+  // Mobile stats
+  coinsDisplay.textContent = coinValue;
+  betDisplay.textContent = betValue;
+  winRateDisplay.textContent = rate + "%";
 
-    // Mobile stats
-    coinsDisplay.textContent = coinValue;
-    betDisplay.textContent = betValue;
-    winRateDisplay.textContent = rate + "%";
+  // Desktop stats
+  coinsDesktop.textContent = coinValue;
+  betDesktop.textContent = betValue;
+  winRateDesktop.textContent = rate + "%";
+  betDisplayDesktop.textContent = betValue;
 
-    // Desktop stats
-    coinsDesktop.textContent = coinValue;
-    betDesktop.textContent = betValue;
-    winRateDesktop.textContent = rate + "%";
-    betDisplayDesktop.textContent = betValue;
-
-    // Statistics
-    totalSpinsDisplay.textContent = totalSpins;
-    winsDisplay.textContent = wins;
-    lossesDisplay.textContent = losses;
-    highestWinDisplay.textContent = highestWin;
-
+  // Statistics
+  totalSpinsDisplay.textContent = totalSpins;
+  winsDisplay.textContent = wins;
+  lossesDisplay.textContent = losses;
+  highestWinDisplay.textContent = highestWin;
 }
-
 
 /*=========================================================
     SAVE GAME
 =========================================================*/
 
 function saveGame() {
+  const save = {
+    coins,
 
-    const save = {
+    bet,
 
-        coins,
+    totalSpins,
 
-        bet,
+    wins,
 
-        totalSpins,
+    losses,
 
-        wins,
+    highestWin,
 
-        losses,
+    jackpots,
 
-        highestWin,
+    totalWon,
+  };
 
-        jackpots,
+  localStorage.setItem(
+    "codespin",
 
-        totalWon
-
-    };
-
-    localStorage.setItem(
-
-        "codespin",
-
-        JSON.stringify(save)
-
-    );
-
+    JSON.stringify(save),
+  );
 }
-
 
 /*=========================================================
     LOAD GAME
 =========================================================*/
 
 function loadGame() {
+  const save = JSON.parse(localStorage.getItem("codespin"));
 
-    const save =
+  if (!save) return;
 
-        JSON.parse(
+  coins = save.coins;
 
-            localStorage.getItem("codespin")
+  bet = save.bet;
 
-        );
+  totalSpins = save.totalSpins;
 
-    if (!save) return;
+  wins = save.wins;
 
-    coins = save.coins;
+  losses = save.losses;
 
-    bet = save.bet;
+  highestWin = save.highestWin;
 
-    totalSpins = save.totalSpins;
+  jackpots = save.jackpots || 0;
 
-    wins = save.wins;
-
-    losses = save.losses;
-
-    highestWin = save.highestWin;
-
-    jackpots = save.jackpots || 0;
-
-    totalWon = save.totalWon || 0;
-
+  totalWon = save.totalWon || 0;
 }
-
 
 /*=========================================================
     RESET GAME
 =========================================================*/
 
 function resetGame() {
+  coins = 1000;
 
-    coins = 1000;
+  bet = 50;
 
-    bet = 50;
+  totalSpins = 0;
 
-    totalSpins = 0;
+  wins = 0;
 
-    wins = 0;
+  losses = 0;
 
-    losses = 0;
+  highestWin = 0;
 
-    highestWin = 0;
+  jackpots = 0;
 
-    jackpots = 0;
+  totalWon = 0;
 
-    totalWon = 0;
+  // Stop any playing audio
+  spinSound.pause();
+  spinSound.currentTime = 0;
+  winSound.pause();
+  winSound.currentTime = 0;
+  jackpotSound.pause();
+  jackpotSound.currentTime = 0;
 
-    // Stop any playing audio
-    spinSound.pause();
-    spinSound.currentTime = 0;
-    winSound.pause();
-    winSound.currentTime = 0;
-    jackpotSound.pause();
-    jackpotSound.currentTime = 0;
+  localStorage.removeItem("codespin");
 
-    localStorage.removeItem("codespin");
+  updateUI();
 
-    updateUI();
+  initializeReels();
 
-    initializeReels();
-
-    resultMessage.innerHTML =
-
-        "🎰 Press <strong>SPIN</strong> to Start!";
-
+  resultMessage.innerHTML = "🎰 Press <strong>SPIN</strong> to Start!";
 }
-
 
 /*=========================================================
     BET CONTROLS
 =========================================================*/
 
 increaseBet.onclick = () => {
+  if (bet < 500) {
+    bet += 50;
 
-    if (bet < 500) {
+    updateUI();
 
-        bet += 50;
-
-        updateUI();
-
-        saveGame();
-
-    }
-
+    saveGame();
+  }
 };
-
 
 decreaseBet.onclick = () => {
+  if (bet > 50) {
+    bet -= 50;
 
-    if (bet > 50) {
+    updateUI();
 
-        bet -= 50;
-
-        updateUI();
-
-        saveGame();
-
-    }
-
+    saveGame();
+  }
 };
-
 
 /*=========================================================
     INITIALIZE GAME
@@ -396,144 +331,110 @@ initializeReels();
 updateUI();
 
 resultMessage.innerHTML =
-
-    "🎰 Welcome to <strong>CodeSpin</strong><br>Press SPIN to begin!";
-
-/*=========================================================
-    PART 3B
-    REEL ANIMATION ENGINE
-=========================================================*/
+  "🎰 Welcome to <strong>CodeSpin</strong><br>Press SPIN to begin!";
 
 /*=========================================================
     CREATE ONE SYMBOL
 =========================================================*/
 
 function createSymbol(symbol) {
+  const div = document.createElement("div");
 
-    const div = document.createElement("div");
+  div.className = "reel-symbol";
 
-    div.className = "reel-symbol";
+  div.dataset.name = symbol.name;
 
-    div.dataset.name = symbol.name;
+  const h = getSymbolHeight();
+  div.style.height = h + "px";
 
-    const h = getSymbolHeight();
-    div.style.height = h + "px";
-
-    div.innerHTML = `
+  div.innerHTML = `
 
         <img src="${symbol.image}"
              alt="${symbol.name}">
 
     `;
 
-    return div;
-
+  return div;
 }
-
 
 /*=========================================================
     RESET REEL POSITION
 =========================================================*/
 
 function resetReel(reel) {
+  reel.style.transition = "none";
 
-    reel.style.transition = "none";
-
-    reel.style.transform = "translateY(0px)";
-
+  reel.style.transform = "translateY(0px)";
 }
-
 
 /*=========================================================
     PREPARE REEL
 =========================================================*/
 
 function prepareReel(reel) {
+  reel.innerHTML = "";
 
-    reel.innerHTML = "";
+  const h = getSymbolHeight();
 
-    const h = getSymbolHeight();
-
-    for (let i = 0; i < REEL_SYMBOLS; i++) {
-
-        const el = createSymbol(randomSymbol());
-        el.style.height = h + "px";
-        reel.appendChild(el);
-
-    }
-
+  for (let i = 0; i < REEL_SYMBOLS; i++) {
+    const el = createSymbol(randomSymbol());
+    el.style.height = h + "px";
+    reel.appendChild(el);
+  }
 }
-
 
 /*=========================================================
     SET FINAL SYMBOL
 =========================================================*/
 
 function setWinningSymbol(reel, symbol) {
+  const children = reel.children;
 
-    const children = reel.children;
+  const centerIndex = 24;
 
-    const centerIndex = 24;
+  children[centerIndex].dataset.name = symbol.name;
 
-    children[centerIndex].dataset.name = symbol.name;
-
-    children[centerIndex].innerHTML = `
+  children[centerIndex].innerHTML = `
 
         <img src="${symbol.image}"
              alt="${symbol.name}">
 
     `;
-
 }
-
 
 /*=========================================================
     SPIN ONE REEL
 =========================================================*/
 
 function spinReel(
+  reel,
 
+  finalSymbol,
+
+  duration,
+  easing = "cubic-bezier(.18,.85,.22,1)",
+) {
+  prepareReel(reel);
+
+  setWinningSymbol(
     reel,
 
     finalSymbol,
+  );
 
-    duration,
-    easing = 'cubic-bezier(.18,.85,.22,1)'
+  resetReel(reel);
 
-) {
+  void reel.offsetHeight;
 
-    prepareReel(reel);
+  reel.parentElement.classList.add("spinning");
 
-    setWinningSymbol(
+  const h = getSymbolHeight();
 
-        reel,
+  const distance = -(24 * h);
 
-        finalSymbol
+  reel.style.transition = `transform ${duration}ms ${easing}`;
 
-    );
-
-    resetReel(reel);
-
-    void reel.offsetHeight;
-
-    reel.parentElement.classList.add(
-
-        "spinning"
-
-    );
-
-    const h = getSymbolHeight();
-
-    const distance = -(24 * h);
-
-    reel.style.transition =
-
-        `transform ${duration}ms ${easing}`;
-
-    reel.style.transform =
-
-        `translateY(${distance}px)`;
-
+  reel.style.transform = `translateY(${distance}px)`;
 }
 
 /*=========================================================
@@ -541,141 +442,93 @@ function spinReel(
 =========================================================*/
 
 function spin() {
+  if (spinning) return;
 
-    if (spinning) return;
+  if (coins < bet) {
+    resultMessage.className = "result lose";
 
-    if (coins < bet) {
+    resultMessage.innerHTML = "❌ Not enough coins!";
 
-        resultMessage.className = "result lose";
+    return;
+  }
 
-        resultMessage.innerHTML =
+  // Play spin sound (restart if already playing)
+  spinSound.currentTime = 0;
+  spinSound.play().catch((e) => console.log("Spin audio error:", e));
 
-            "❌ Not enough coins!";
+  spinning = true;
 
-        return;
+  coins -= bet;
 
-    }
+  totalSpins++;
 
-    // Play spin sound (restart if already playing)
-    spinSound.currentTime = 0;
-    spinSound.play().catch(e => console.log('Spin audio error:', e));
+  updateUI();
 
-    spinning = true;
+  resultMessage.className = "result";
 
-    coins -= bet;
+  resultMessage.innerHTML = "🎰 Spinning...";
 
-    totalSpins++;
+  const finalOne = randomSymbol();
 
-    updateUI();
+  const finalTwo = randomSymbol();
 
-    resultMessage.className = "result";
+  const finalThree = randomSymbol();
 
-    resultMessage.innerHTML =
+  // --- 5-second spin with dramatic slow-down on reel 3 ---
+  spinReel(
+    reel1,
 
-        "🎰 Spinning...";
+    finalOne,
 
-    const finalOne = randomSymbol();
+    1000,
+  );
 
-    const finalTwo = randomSymbol();
+  spinReel(
+    reel2,
 
-    const finalThree = randomSymbol();
+    finalTwo,
 
-    // --- 5-second spin with dramatic slow-down on reel 3 ---
-    spinReel(
+    2000,
+  );
 
-        reel1,
+  spinReel(
+    reel3,
 
-        finalOne,
+    finalThree,
 
-        1000
+    5000,
+    "cubic-bezier(.05, .85, .0, 1)",
+  );
 
+  setTimeout(() => {
+    reel1.parentElement.classList.remove("spinning");
+
+    reel1.parentElement.classList.add("stop");
+  }, 1000);
+
+  setTimeout(() => {
+    reel2.parentElement.classList.remove("spinning");
+
+    reel2.parentElement.classList.add("stop");
+  }, 2000);
+
+  setTimeout(() => {
+    reel3.parentElement.classList.remove("spinning");
+
+    reel3.parentElement.classList.add("stop");
+
+    checkWin(
+      finalOne,
+
+      finalTwo,
+
+      finalThree,
     );
 
-    spinReel(
+    spinning = false;
 
-        reel2,
-
-        finalTwo,
-
-        2000
-
-    );
-
-    spinReel(
-
-        reel3,
-
-        finalThree,
-
-        5000,
-        'cubic-bezier(.05, .85, .0, 1)'
-
-    );
-
-    setTimeout(() => {
-
-        reel1.parentElement.classList.remove(
-
-            "spinning"
-
-        );
-
-        reel1.parentElement.classList.add(
-
-            "stop"
-
-        );
-
-    }, 1000);
-
-
-    setTimeout(() => {
-
-        reel2.parentElement.classList.remove(
-
-            "spinning"
-
-        );
-
-        reel2.parentElement.classList.add(
-
-            "stop"
-
-        );
-
-    }, 2000);
-
-
-    setTimeout(() => {
-
-        reel3.parentElement.classList.remove(
-
-            "spinning"
-
-        );
-
-        reel3.parentElement.classList.add(
-
-            "stop"
-
-        );
-
-        checkWin(
-
-            finalOne,
-
-            finalTwo,
-
-            finalThree
-
-        );
-
-        spinning = false;
-
-        saveGame();
-
-    }, 5000);
-
+    saveGame();
+  }, 5000);
 }
 
 /*=========================================================
@@ -687,53 +540,38 @@ spinButton.onclick = spin;
 resetButton.onclick = resetGame;
 
 /*=========================================================
-    PART 3C
-    WIN DETECTION & REWARDS
-=========================================================*/
-
-/*=========================================================
     CHECK WIN
 =========================================================*/
 
 function checkWin(symbol1, symbol2, symbol3) {
+  const slots = document.querySelectorAll(".slot");
 
-    const slots = document.querySelectorAll(".slot");
+  slots.forEach((slot) => {
+    slot.classList.remove("winner");
 
-    slots.forEach(slot => {
+    slot.classList.remove("jackpot");
 
-        slot.classList.remove("winner");
+    slot.classList.remove("stop");
+  });
 
-        slot.classList.remove("jackpot");
+  let reward = 0;
 
-        slot.classList.remove("stop");
+  let message = "";
 
-    });
+  if (symbol1.name === symbol2.name && symbol2.name === symbol3.name) {
+    reward = bet * 5;
 
-    let reward = 0;
+    wins++;
 
-    let message = "";
+    jackpots++;
 
-    if (
+    coins += reward;
 
-        symbol1.name === symbol2.name &&
+    totalWon += reward;
 
-        symbol2.name === symbol3.name
+    highestWin = Math.max(highestWin, reward);
 
-    ) {
-
-        reward = bet * 5;
-
-        wins++;
-
-        jackpots++;
-
-        coins += reward;
-
-        totalWon += reward;
-
-        highestWin = Math.max(highestWin, reward);
-
-        message = `
+    message = `
 
                     🎉 JACKPOT!<br>
 
@@ -743,48 +581,40 @@ function checkWin(symbol1, symbol2, symbol3) {
 
                 `;
 
-        slots.forEach(slot => {
+    slots.forEach((slot) => {
+      slot.classList.add("winner");
 
-            slot.classList.add("winner");
+      slot.classList.add("jackpot");
+    });
 
-            slot.classList.add("jackpot");
+    resultMessage.className = "result jackpot";
 
-        });
+    jackpotSound.currentTime = 0;
+    jackpotSound.play().catch((e) => console.log("Jackpot audio error:", e));
+  } else if (
+    symbol1.name === symbol2.name ||
+    symbol1.name === symbol3.name ||
+    symbol2.name === symbol3.name
+  ) {
+    reward = bet * 2;
 
-        resultMessage.className = "result jackpot";
+    wins++;
 
-        jackpotSound.currentTime = 0;
-        jackpotSound.play().catch(e => console.log('Jackpot audio error:', e));
+    coins += reward;
 
-    } else if (
+    totalWon += reward;
 
-        symbol1.name === symbol2.name ||
-        symbol1.name === symbol3.name ||
-        symbol2.name === symbol3.name
+    highestWin = Math.max(highestWin, reward);
 
-    ) {
+    const match = findMatchingName(
+      symbol1,
 
-        reward = bet * 2;
+      symbol2,
 
-        wins++;
+      symbol3,
+    );
 
-        coins += reward;
-
-        totalWon += reward;
-
-        highestWin = Math.max(highestWin, reward);
-
-        const match = findMatchingName(
-
-            symbol1,
-
-            symbol2,
-
-            symbol3
-
-        );
-
-        message = `
+    message = `
 
                     ✅ Match!
 
@@ -798,22 +628,18 @@ function checkWin(symbol1, symbol2, symbol3) {
 
                 `;
 
-        slots.forEach(slot => {
+    slots.forEach((slot) => {
+      slot.classList.add("winner");
+    });
 
-            slot.classList.add("winner");
+    resultMessage.className = "result win";
 
-        });
+    winSound.currentTime = 0;
+    winSound.play().catch((e) => console.log("Win audio error:", e));
+  } else {
+    losses++;
 
-        resultMessage.className = "result win";
-
-        winSound.currentTime = 0;
-        winSound.play().catch(e => console.log('Win audio error:', e));
-
-    } else {
-
-        losses++;
-
-        message = `
+    message = `
 
                     ❌ No Match
 
@@ -823,104 +649,73 @@ function checkWin(symbol1, symbol2, symbol3) {
 
                 `;
 
-        resultMessage.className = "result lose";
+    resultMessage.className = "result lose";
+  }
 
-    }
+  resultMessage.innerHTML = message;
 
-    resultMessage.innerHTML = message;
-
-    updateUI();
-
+  updateUI();
 }
-
 
 /*=========================================================
     FIND MATCHING NAME
 =========================================================*/
 
 function findMatchingName(a, b, c) {
+  if (a.name === b.name) {
+    return a.name;
+  }
 
-    if (a.name === b.name) {
+  if (a.name === c.name) {
+    return a.name;
+  }
 
-        return a.name;
+  if (b.name === c.name) {
+    return b.name;
+  }
 
-    }
-
-    if (a.name === c.name) {
-
-        return a.name;
-
-    }
-
-    if (b.name === c.name) {
-
-        return b.name;
-
-    }
-
-    return "";
-
+  return "";
 }
-
 
 /*=========================================================
     REMOVE WIN EFFECT
 =========================================================*/
 
 function clearEffects() {
+  document
+    .querySelectorAll(".slot")
 
-    document.querySelectorAll(".slot")
+    .forEach((slot) => {
+      slot.classList.remove(
+        "winner",
 
-    .forEach(slot => {
+        "jackpot",
 
-        slot.classList.remove(
-
-            "winner",
-
-            "jackpot",
-
-            "stop"
-
-        );
-
+        "stop",
+      );
     });
-
 }
 
 /*=========================================================
     AUTO SPIN
 =========================================================*/
 
-autoSpinButton.onclick = function() {
+autoSpinButton.onclick = function () {
+  if (autoSpin === null) {
+    autoSpinButton.innerHTML = '<i class="fas fa-stop"></i> STOP';
 
-    if (autoSpin === null) {
+    autoSpin = setInterval(() => {
+      if (!spinning) {
+        spin();
+      }
+    }, 5500);
+  } else {
+    clearInterval(autoSpin);
 
-        autoSpinButton.innerHTML =
+    autoSpin = null;
 
-            '<i class="fas fa-stop"></i> STOP';
-
-        autoSpin = setInterval(() => {
-
-            if (!spinning) {
-
-                spin();
-
-            }
-
-        }, 5500);
-
-    } else {
-
-        clearInterval(autoSpin);
-
-        autoSpin = null;
-
-        autoSpinButton.innerHTML =
-
-            '<i class="fas fa-repeat"></i> AUTO SPIN';
-
-    }
-
+    autoSpinButton.innerHTML = '<i class="fas fa-repeat"></i> AUTO SPIN';
+  }
 };
 
 /*=========================================================
@@ -928,33 +723,25 @@ autoSpinButton.onclick = function() {
 =========================================================*/
 
 document.addEventListener(
+  "keydown",
 
-    "keydown",
+  function (e) {
+    if (e.code === "Space") {
+      e.preventDefault();
 
-    function(e) {
-
-        if (e.code === "Space") {
-
-            e.preventDefault();
-
-            spin();
-
-        }
-
+      spin();
     }
-
+  },
 );
 
 /*=========================================================
     PRELOAD IMAGES
 =========================================================*/
 
-symbols.forEach(symbol => {
+symbols.forEach((symbol) => {
+  const img = new Image();
 
-    const img = new Image();
-
-    img.src = symbol.image;
-
+  img.src = symbol.image;
 });
 
 /*=========================================================
@@ -962,131 +749,85 @@ symbols.forEach(symbol => {
 =========================================================*/
 
 window.addEventListener(
+  "beforeunload",
 
-    "beforeunload",
-
-    saveGame
-
+  saveGame,
 );
-
-/*=========================================================
-    PART 3D
-    FINAL POLISH & INITIALIZATION
-=========================================================*/
 
 /*=========================================================
     MACHINE LIGHTS
 =========================================================*/
 
-const machineLights = document.querySelectorAll(
-    '.machine-lights span'
-);
+const machineLights = document.querySelectorAll(".machine-lights span");
 
 function flashLights() {
+  machineLights.forEach((light, index) => {
+    setTimeout(() => {
+      light.classList.add("active");
 
-    machineLights.forEach((light, index) => {
-
-        setTimeout(() => {
-
-            light.classList.add('active');
-
-            setTimeout(() => {
-
-                light.classList.remove('active');
-
-            }, 250);
-
-        }, index * 80);
-
-    });
-
+      setTimeout(() => {
+        light.classList.remove("active");
+      }, 250);
+    }, index * 80);
+  });
 }
-
 
 /*=========================================================
     COIN COUNT ANIMATION
 =========================================================*/
 
 function animateCoins(target) {
+  const start = parseInt(coinsDisplay.textContent);
 
-    const start = parseInt(coinsDisplay.textContent);
+  const duration = 500;
 
-    const duration = 500;
+  const startTime = performance.now();
 
-    const startTime = performance.now();
+  function update(currentTime) {
+    const progress = Math.min((currentTime - startTime) / duration, 1);
 
-    function update(currentTime) {
+    const value = Math.floor(start + (target - start) * progress);
 
-        const progress = Math.min(
-            (currentTime - startTime) / duration,
-            1
-        );
+    coinsDisplay.textContent = value;
+    coinsDesktop.textContent = value;
 
-        const value = Math.floor(
-            start + (target - start) * progress
-        );
-
-        coinsDisplay.textContent = value;
-        coinsDesktop.textContent = value;
-
-        if (progress < 1) {
-
-            requestAnimationFrame(update);
-
-        } else {
-
-            coinsDisplay.textContent = target;
-            coinsDesktop.textContent = target;
-
-        }
-
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      coinsDisplay.textContent = target;
+      coinsDesktop.textContent = target;
     }
+  }
 
-    requestAnimationFrame(update);
-
+  requestAnimationFrame(update);
 }
-
 
 /*=========================================================
     CONFETTI EFFECT
 =========================================================*/
 
 function createConfetti() {
+  const colors = ["#2563eb", "#22c55e", "#f59e0b", "#ef4444", "#ffffff"];
 
-    const colors = [
-        '#2563eb',
-        '#22c55e',
-        '#f59e0b',
-        '#ef4444',
-        '#ffffff'
-    ];
+  for (let i = 0; i < 25; i++) {
+    const confetti = document.createElement("div");
 
-    for (let i = 0; i < 25; i++) {
+    confetti.className = "confetti";
 
-        const confetti = document.createElement('div');
+    confetti.style.left = Math.random() * 100 + "%";
 
-        confetti.className = 'confetti';
+    confetti.style.background =
+      colors[Math.floor(Math.random() * colors.length)];
 
-        confetti.style.left = Math.random() * 100 + '%';
+    confetti.style.animationDuration = 2 + Math.random() * 2 + "s";
 
-        confetti.style.background =
-            colors[Math.floor(Math.random() * colors.length)];
+    document.body.appendChild(confetti);
 
-        confetti.style.animationDuration =
-            2 + Math.random() * 2 + 's';
-
-        document.body.appendChild(confetti);
-
-        setTimeout(() => {
-
-            confetti.remove();
-
-        }, 4000);
-
-    }
-
+    setTimeout(() => {
+      confetti.remove();
+    }, 4000);
+  }
 }
-
 
 /*=========================================================
     IMPROVED SPIN
@@ -1094,26 +835,19 @@ function createConfetti() {
 
 const originalSpin = spin;
 
-spin = function() {
+spin = function () {
+  if (spinning) return;
 
-    if (spinning) return;
+  flashLights();
 
-    flashLights();
+  document.querySelector(".machine").classList.add("machine-spin");
 
-    document.querySelector('.machine')
-        .classList.add('machine-spin');
+  originalSpin();
 
-    originalSpin();
-
-    setTimeout(() => {
-
-        document.querySelector('.machine')
-            .classList.remove('machine-spin');
-
-    }, 5200);
-
+  setTimeout(() => {
+    document.querySelector(".machine").classList.remove("machine-spin");
+  }, 5200);
 };
-
 
 /*=========================================================
     ENHANCED CHECK WIN
@@ -1121,61 +855,45 @@ spin = function() {
 
 const originalCheckWin = checkWin;
 
-checkWin = function(a, b, c) {
+checkWin = function (a, b, c) {
+  originalCheckWin(a, b, c);
 
-    originalCheckWin(a, b, c);
+  if (a.name === b.name && b.name === c.name) {
+    createConfetti();
 
-    if (a.name === b.name && b.name === c.name) {
-
-        createConfetti();
-
-        flashLights();
-
-    }
-
+    flashLights();
+  }
 };
-
 
 /*=========================================================
     ADDITIONAL STATS (OPTIONAL)
 =========================================================*/
 
 function getWinRate() {
+  if (totalSpins === 0) return 0;
 
-    if (totalSpins === 0) return 0;
-
-    return ((wins / totalSpins) * 100).toFixed(1);
-
+  return ((wins / totalSpins) * 100).toFixed(1);
 }
 
 function getProfit() {
-
-    return totalWon - (totalSpins * bet);
-
+  return totalWon - totalSpins * bet;
 }
-
 
 /*=========================================================
     CLEANUP
 =========================================================*/
 
 function stopAutoSpin() {
+  if (autoSpin !== null) {
+    clearInterval(autoSpin);
 
-    if (autoSpin !== null) {
+    autoSpin = null;
 
-        clearInterval(autoSpin);
-
-        autoSpin = null;
-
-        autoSpinButton.innerHTML =
-            '<i class="fas fa-repeat"></i> AUTO SPIN';
-
-    }
-
+    autoSpinButton.innerHTML = '<i class="fas fa-repeat"></i> AUTO SPIN';
+  }
 }
 
-window.addEventListener('beforeunload', stopAutoSpin);
-
+window.addEventListener("beforeunload", stopAutoSpin);
 
 /*=========================================================
     HANDLE RESIZE – rebuild reels with correct height
@@ -1183,25 +901,22 @@ window.addEventListener('beforeunload', stopAutoSpin);
 
 let resizeTimeout;
 
-window.addEventListener('resize', function() {
-
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function() {
-        const newHeight = getSymbolHeight();
-        if (Math.abs(newHeight - SYMBOL_HEIGHT) > 2) {
-            SYMBOL_HEIGHT = newHeight;
-            // Only rebuild if not spinning
-            if (!spinning) {
-                initializeReels();
-                // Re-apply current result message style
-                const msg = resultMessage.innerHTML;
-                resultMessage.innerHTML = msg;
-            }
-        }
-    }, 300);
-
+window.addEventListener("resize", function () {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(function () {
+    const newHeight = getSymbolHeight();
+    if (Math.abs(newHeight - SYMBOL_HEIGHT) > 2) {
+      SYMBOL_HEIGHT = newHeight;
+      // Only rebuild if not spinning
+      if (!spinning) {
+        initializeReels();
+        // Re-apply current result message style
+        const msg = resultMessage.innerHTML;
+        resultMessage.innerHTML = msg;
+      }
+    }
+  }, 300);
 });
-
 
 /*=========================================================
     AUDIO TOGGLE (MUTE/UNMUTE)
@@ -1212,7 +927,7 @@ let isMuted = false;
 // Load mute state from localStorage if available
 const savedMute = localStorage.getItem("codespin_mute");
 if (savedMute !== null) {
-    isMuted = savedMute === "true";
+  isMuted = savedMute === "true";
 }
 
 const audioToggle = document.getElementById("audioToggle");
@@ -1220,33 +935,32 @@ const audioIcon = audioToggle.querySelector("i");
 
 // Apply initial mute state
 function applyMuteState() {
-    if (isMuted) {
-        audioToggle.classList.add("muted");
-        audioIcon.className = "fas fa-volume-mute";
-        // Mute all audio elements
-        spinSound.muted = true;
-        winSound.muted = true;
-        jackpotSound.muted = true;
-    } else {
-        audioToggle.classList.remove("muted");
-        audioIcon.className = "fas fa-volume-up";
-        spinSound.muted = false;
-        winSound.muted = false;
-        jackpotSound.muted = false;
-    }
-    localStorage.setItem("codespin_mute", String(isMuted));
+  if (isMuted) {
+    audioToggle.classList.add("muted");
+    audioIcon.className = "fas fa-volume-mute";
+    // Mute all audio elements
+    spinSound.muted = true;
+    winSound.muted = true;
+    jackpotSound.muted = true;
+  } else {
+    audioToggle.classList.remove("muted");
+    audioIcon.className = "fas fa-volume-up";
+    spinSound.muted = false;
+    winSound.muted = false;
+    jackpotSound.muted = false;
+  }
+  localStorage.setItem("codespin_mute", String(isMuted));
 }
 
 // Toggle mute on button click
-audioToggle.addEventListener("click", function(e) {
-    e.stopPropagation();
-    isMuted = !isMuted;
-    applyMuteState();
+audioToggle.addEventListener("click", function (e) {
+  e.stopPropagation();
+  isMuted = !isMuted;
+  applyMuteState();
 });
 
 // Initialize mute state
 applyMuteState();
-
 
 /*=========================================================
     INITIALIZE EVERYTHING
@@ -1257,12 +971,8 @@ initializeReels();
 updateUI();
 
 resultMessage.innerHTML =
-    '🎰 Welcome to <strong>CodeSpin</strong><br>Press <strong>SPIN</strong> to begin!';
+  "🎰 Welcome to <strong>CodeSpin</strong><br>Press <strong>SPIN</strong> to begin!";
 
-console.log(
-    '🎰 CodeSpin initialized successfully!'
-);
+console.log("🎰 CodeSpin initialized successfully!");
 
-console.log(
-    `Loaded ${symbols.length} programming language symbols`
-);
+console.log(`Loaded ${symbols.length} programming language symbols`);
