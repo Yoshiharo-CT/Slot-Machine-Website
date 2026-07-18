@@ -1,23 +1,14 @@
-/*======================================================
-    CODESPIN
-    Programming Language Slot Machine
-    STYLE.CSS
-    REDESIGNED LAYOUT
-======================================================*/
-
 /*==========================
-        GOOGLE FONT
+GOOGLE FONT
 ===========================*/
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
 
 /*==========================
         CSS VARIABLES
 ===========================*/
 
 :root {
-
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
 
@@ -31,342 +22,204 @@
 
     --text: #f8fafc;
     --text-light: #94a3b8;
-
     --white: #ffffff;
 
     --radius: 20px;
-
-    --shadow:
-        0 20px 40px rgba(0, 0, 0, .35);
-
+    --shadow: 0 20px 40px rgba(0, 0, 0, .35);
     --transition: .30s ease;
-
 }
-
 
 /*==========================
         RESET
 ===========================*/
 
 * {
-
     margin: 0;
-
     padding: 0;
-
     box-sizing: border-box;
-
 }
-
 
 html {
-
     scroll-behavior: smooth;
-
 }
-
 
 body {
-
     font-family: 'Poppins', sans-serif;
-
-    background: linear-gradient(180deg,
-            #0f172a,
-            #111827);
-
+    background: linear-gradient(180deg, #0f172a, #111827);
     color: var(--text);
-
     min-height: 100vh;
-
     overflow-x: hidden;
-
 }
-
 
 /*==========================
         SCROLLBAR
 ===========================*/
 
 ::-webkit-scrollbar {
-
     width: 10px;
-
 }
 
 ::-webkit-scrollbar-track {
-
     background: #111827;
-
 }
 
 ::-webkit-scrollbar-thumb {
-
     background: var(--primary);
-
     border-radius: 50px;
-
 }
 
 ::-webkit-scrollbar-thumb:hover {
-
     background: #3b82f6;
-
 }
-
 
 /*==========================
         GENERAL
 ===========================*/
 
 button {
-
     font-family: inherit;
-
     cursor: pointer;
-
     border: none;
-
 }
 
 img {
-
     display: block;
-
     max-width: 100%;
-
 }
 
 a {
-
     text-decoration: none;
-
     color: inherit;
-
 }
-
 
 /*==========================
         HEADER
 ===========================*/
 
 .header {
-
     width: 100%;
-
     padding: 18px 8%;
-
     background: #111827;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
-    box-shadow:
-
-        0 5px 20px rgba(0, 0, 0, .30);
-
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .30);
     position: sticky;
-
     top: 0;
-
     z-index: 1000;
-
 }
-
 
 .logo {
-
     display: flex;
-
     align-items: center;
-
     gap: 16px;
-
 }
-
 
 .logo i {
-
     font-size: 36px;
-
     color: var(--primary);
-
 }
-
 
 .logo h1 {
-
     font-size: 1.7rem;
-
     font-weight: 700;
-
     line-height: 1.2;
-
 }
-
 
 .logo p {
-
     color: var(--text-light);
-
     font-size: .85rem;
-
 }
-
 
 /*==========================
         MAIN CONTAINER
 ===========================*/
 
 .container {
-
     width: min(1400px, 94%);
-
     margin: 30px auto;
-
     max-width: 100%;
-
     overflow: hidden;
-
 }
-
 
 /*==========================
         PLAYER PANEL (mobile only)
 ===========================*/
 
 .mobile-stats {
-
     display: none;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 14px;
-
     margin-bottom: 24px;
-
 }
 
 .mobile-stats .panel-card {
-
-    background: linear-gradient(145deg,
-            #1e293b,
-            #0f172a);
-
+    background: linear-gradient(145deg, #1e293b, #0f172a);
     border-radius: 16px;
-
     padding: 16px 12px;
-
     text-align: center;
-
     box-shadow: var(--shadow);
-
     border: 1px solid rgba(255, 255, 255, .05);
-
     transition: var(--transition);
-
 }
 
 .mobile-stats .panel-card h3 {
-
     font-size: .8rem;
-
     color: var(--text-light);
-
     margin-bottom: 6px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 6px;
-
 }
 
 .mobile-stats .panel-card h3 i {
-
     color: var(--primary);
-
     font-size: .85rem;
-
 }
 
 .mobile-stats .panel-card span {
-
     font-size: 1.5rem;
-
     font-weight: 700;
-
     color: var(--primary);
-
 }
-
 
 /*====================================================
         TWO-COLUMN GAME LAYOUT
 ====================================================*/
 
 .game-layout {
-
     display: grid;
-
     grid-template-columns: 1fr 340px;
-
     gap: 28px;
-
     align-items: start;
-
     margin-bottom: 40px;
-
 }
-
 
 /*====================================================
         SLOT MACHINE (left column)
 ====================================================*/
 
 .slot-machine {
-
     display: flex;
-
     justify-content: center;
-
     width: 100%;
-
 }
 
 
 .machine {
-
     width: 100%;
-
     max-width: 780px;
-
-    background: linear-gradient(180deg,
-            #1f2937,
-            #111827);
-
+    background: linear-gradient(180deg, #1f2937, #111827);
     border-radius: 28px;
-
     padding: 28px 30px 30px;
-
     border: 3px solid rgba(255, 255, 255, .05);
-
-    box-shadow:
-
-        0 25px 60px rgba(0, 0, 0, .45);
-
+    box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
     position: relative;
-
 }
 
-
 /*==========================
-        AUDIO CONTROL (top right)
+        AUDIO CONTROL 
 ===========================*/
 
 .audio-control {
@@ -407,58 +260,36 @@ a {
     opacity: 0.6;
 }
 
-
 /*==========================
         LED LIGHTS
 ===========================*/
 
 .machine-lights {
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 10px;
-
     margin: 0 auto 20px;
-
     flex-wrap: wrap;
-
 }
 
 
 .machine-lights span {
-
     display: inline-block;
-
     width: 12px;
-
     height: 12px;
-
     border-radius: 50%;
-
     background: #3b82f6;
-
-    box-shadow:
-
-        0 0 10px rgba(59, 130, 246, .70);
-
+    box-shadow: 0 0 10px rgba(59, 130, 246, .70);
     animation: lights 1.8s infinite;
-
 }
 
-
 .machine-lights span:nth-child(even) {
-
     animation-delay: .4s;
-
 }
 
 
 @keyframes lights {
-
     0% {
 
         opacity: 1;
@@ -476,253 +307,147 @@ a {
         opacity: 1;
 
     }
-
 }
-
 
 /*==========================
         MACHINE TITLE
 ===========================*/
 
 .machine-header {
-
     text-align: center;
-
     margin-bottom: 22px;
-
 }
-
 
 .machine-header h2 {
-
     font-size: 1.6rem;
-
     letter-spacing: 2px;
-
     color: white;
-
 }
-
 
 .machine-header h2 i {
-
     color: var(--primary);
-
 }
-
 
 .machine-header p {
-
     margin-top: 4px;
-
     color: var(--text-light);
-
     font-size: .9rem;
-
 }
-
 
 /*======================================================
             SLOT FRAME
 ======================================================*/
 
 .slot-frame {
-
     position: relative;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     gap: 20px;
-
-    background: linear-gradient(180deg,
-            #0f172a,
-            #1e293b);
-
+    background: linear-gradient(180deg, #0f172a, #1e293b);
     padding: 28px 24px;
-
     border-radius: 20px;
-
     border: 2px solid rgba(255, 255, 255, .06);
-
     overflow: hidden;
-
 }
-
 
 /*======================================================
                 PAYLINE
 ======================================================*/
 
 .payline {
-
     position: absolute;
-
     left: 24px;
-
     right: 24px;
-
     top: 50%;
-
     transform: translateY(-50%);
-
     height: 3px;
-
     background: gold;
-
     border-radius: 20px;
-
     opacity: .7;
-
     z-index: 50;
-
 }
-
 
 /*======================================================
                 SLOT WINDOW
 ======================================================*/
 
 .slot {
-
     position: relative;
-
     width: 140px;
-
     height: 160px;
-
     overflow: hidden;
-
     border-radius: 14px;
-
     background: white;
-
     border: 3px solid #d1d5db;
-
-    box-shadow:
-
-        inset 0 0 20px rgba(0, 0, 0, .18),
-
-        0 12px 20px rgba(0, 0, 0, .30);
-
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, .18), 0 12px 20px rgba(0, 0, 0, .30);
     flex-shrink: 0;
-
 }
-
 
 /*======================================================
                 GLASS EFFECT
 ======================================================*/
 
 .slot::before {
-
     content: "";
-
     position: absolute;
-
     inset: 0;
-
-    background:
-
-        linear-gradient(rgba(255, 255, 255, .25),
-
-            transparent 25%,
-
-            transparent 75%,
-
-            rgba(0, 0, 0, .10));
-
+    background: linear-gradient(rgba(255, 255, 255, .25), transparent 25%, transparent 75%, rgba(0, 0, 0, .10));
     pointer-events: none;
-
     z-index: 100;
-
 }
-
 
 /*======================================================
                 REEL
 ======================================================*/
 
 .reel {
-
     position: absolute;
-
     top: 0;
-
     left: 0;
-
     width: 100%;
-
 }
-
 
 /*======================================================
             SYMBOL CONTAINER
 ======================================================*/
 
 .reel-symbol {
-
     height: 160px;
-
     display: flex;
-
     justify-content: center;
-
     align-items: center;
-
     flex-shrink: 0;
-
 }
-
 
 /*======================================================
             PROGRAMMING LOGO
 ======================================================*/
 
 .reel-symbol img {
-
     width: 80px;
-
     height: 80px;
-
     object-fit: contain;
-
 }
-
 
 /*======================================================
         SPINNING EFFECT
 ======================================================*/
 
 .slot.spinning {
-
     border-color: #3b82f6;
-
-    box-shadow:
-
-        0 0 30px rgba(59, 130, 246, .55),
-
-        inset 0 0 16px rgba(255, 255, 255, .15);
-
+    box-shadow: 0 0 30px rgba(59, 130, 246, .55), inset 0 0 16px rgba(255, 255, 255, .15);
 }
-
 
 /*======================================================
             LANDING EFFECT
 ======================================================*/
 
 .slot.stop {
-
     animation: slotStop .35s ease;
-
 }
 
-
 @keyframes slotStop {
-
     0% {
 
         transform: scale(.95);
@@ -740,23 +465,18 @@ a {
         transform: scale(1);
 
     }
-
 }
-
 
 /*======================================================
             WIN EFFECT
 ======================================================*/
 
 .slot.winner {
-
     animation: winner .8s infinite alternate;
-
 }
 
 
 @keyframes winner {
-
     from {
 
         box-shadow:
@@ -772,23 +492,18 @@ a {
             0 0 40px rgba(34, 197, 94, .90);
 
     }
-
 }
-
 
 /*======================================================
             JACKPOT EFFECT
 ======================================================*/
 
 .slot.jackpot {
-
     animation: jackpot .45s infinite;
-
 }
 
 
 @keyframes jackpot {
-
     0% {
 
         transform: scale(1);
@@ -806,56 +521,35 @@ a {
         transform: scale(1);
 
     }
-
 }
-
 
 /*======================================================
         RESULT MESSAGE
 ======================================================*/
 
 .result {
-
     margin-top: 22px;
-
     min-height: 36px;
-
     text-align: center;
-
     font-size: 1.1rem;
-
     font-weight: 600;
-
     color: var(--primary);
-
 }
-
 
 .result.win {
-
     color: #22c55e;
-
 }
-
 
 .result.lose {
-
     color: #ef4444;
-
 }
-
 
 .result.jackpot {
-
     color: gold;
-
     animation: jackpotText .6s infinite;
-
 }
 
-
 @keyframes jackpotText {
-
     0% {
 
         transform: scale(1);
@@ -873,22 +567,17 @@ a {
         transform: scale(1);
 
     }
-
 }
-
 
 /*=========================================
         MACHINE GLOW
 ==========================================*/
 
 .machine.machine-spin {
-
     animation: machineGlow .25s ease-in-out 4;
-
 }
 
 @keyframes machineGlow {
-
     0% {
         box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
     }
@@ -908,591 +597,347 @@ a {
     100% {
         box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
     }
-
 }
-
 
 /* LED light active state */
 
 .machine-lights span.active {
-
     background: #fbbf24;
-
-    box-shadow:
-
-        0 0 18px rgba(251, 191, 36, .95),
-
-        0 0 35px rgba(251, 191, 36, .6);
-
+    box-shadow: 0 0 18px rgba(251, 191, 36, .95), 0 0 35px rgba(251, 191, 36, .6);
 }
-
 
 /*======================================================
             SIDE PANEL (right column)
 ======================================================*/
 
 .side-panel {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 18px;
-
-    background: linear-gradient(145deg,
-            #1e293b,
-            #0f172a);
-
+    background: linear-gradient(145deg, #1e293b, #0f172a);
     border-radius: 20px;
-
     padding: 22px 20px 24px;
-
     border: 1px solid rgba(255, 255, 255, .05);
-
     box-shadow: var(--shadow);
-
 }
-
 
 /* Desktop stats */
 
 .desktop-stats {
-
     display: block;
-
 }
 
 .stat-row {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr 1fr;
-
     gap: 8px;
-
 }
 
 .stat-item {
-
     background: rgba(255, 255, 255, .04);
-
     border-radius: 12px;
-
     padding: 10px 8px;
-
     text-align: center;
-
     border: 1px solid rgba(255, 255, 255, .04);
-
 }
 
 .stat-label {
-
     display: block;
-
     font-size: .7rem;
-
     color: var(--text-light);
-
     font-weight: 400;
-
     margin-bottom: 2px;
-
 }
 
 .stat-label i {
-
     color: var(--primary);
-
     margin-right: 4px;
-
 }
 
 .stat-value {
-
     display: block;
-
     font-size: 1.3rem;
-
     font-weight: 700;
-
     color: var(--primary);
-
 }
-
 
 /* Bet section */
 
 .bet-section {
-
     background: rgba(255, 255, 255, .03);
-
     border-radius: 14px;
-
     padding: 12px 10px;
-
     border: 1px solid rgba(255, 255, 255, .04);
-
 }
 
 .bet-controls {
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 14px;
-
 }
 
 .control-btn {
-
     width: 46px;
-
     height: 46px;
-
     border: none;
-
     border-radius: 50%;
-
     background: var(--surface);
-
     color: white;
-
     font-size: 1rem;
-
     cursor: pointer;
-
     transition: .3s;
-
     box-shadow: var(--shadow);
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     flex-shrink: 0;
-
 }
 
 .control-btn:hover {
-
     background: var(--primary);
-
     transform: translateY(-2px);
-
 }
 
 .bet-display {
-
     text-align: center;
-
     flex: 1;
-
     min-width: 0;
-
 }
 
 .bet-label {
-
     display: block;
-
     font-size: .7rem;
-
     color: var(--text-light);
-
     font-weight: 400;
-
 }
 
 .bet-amount {
-
     display: block;
-
     font-size: 1.5rem;
-
     font-weight: 700;
-
     color: var(--primary);
-
     line-height: 1.3;
-
 }
-
 
 /* Action buttons */
 
 .action-buttons {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
-
 }
 
 .spin-btn {
-
     width: 100%;
-
     height: 56px;
-
     border: none;
-
     border-radius: 50px;
-
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
-
     color: white;
-
     font-size: 1.1rem;
-
     font-weight: 700;
-
     cursor: pointer;
-
     transition: .3s;
-
     box-shadow: 0 10px 25px rgba(37, 99, 235, .35);
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 10px;
-
 }
 
 .spin-btn:hover {
-
     transform: scale(1.02);
-
 }
 
 .spin-btn:active {
-
     transform: scale(.97);
-
 }
 
 .secondary-actions {
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 8px;
-
 }
 
 .secondary-btn {
-
     width: 100%;
-
     height: 44px;
-
     border: none;
-
     border-radius: 12px;
-
     background: var(--surface);
-
     color: var(--text);
-
     font-size: .85rem;
-
     font-weight: 600;
-
     cursor: pointer;
-
     transition: .3s;
-
     box-shadow: var(--shadow);
-
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
     gap: 6px;
-
 }
 
 .secondary-btn:hover {
-
     background: var(--primary);
-
     color: white;
-
 }
-
 
 /* Payout table in side panel */
 
 .payout-table {
-
     background: rgba(255, 255, 255, .03);
-
     border-radius: 14px;
-
     padding: 14px 12px;
-
     border: 1px solid rgba(255, 255, 255, .04);
-
 }
 
 .payout-table h3 {
-
     font-size: .85rem;
-
     color: var(--text-light);
-
     margin-bottom: 10px;
-
     text-align: center;
-
     font-weight: 500;
-
 }
 
 .payout-table h3 i {
-
     color: var(--primary);
-
     margin-right: 6px;
-
 }
 
 .payout-table table {
-
     width: 100%;
-
     border-collapse: collapse;
-
     font-size: .8rem;
-
 }
 
 .payout-table thead {
-
     background: rgba(37, 99, 235, .15);
-
 }
 
 .payout-table th {
-
     padding: 8px 6px;
-
     font-weight: 600;
-
     color: var(--text-light);
-
     font-size: .7rem;
-
     text-transform: uppercase;
-
     letter-spacing: .5px;
-
 }
 
 .payout-table td {
-
     padding: 7px 6px;
-
     text-align: center;
-
     border-bottom: 1px solid rgba(255, 255, 255, .04);
-
     color: var(--text);
-
 }
 
 .payout-table tbody tr:last-child td {
-
     border-bottom: none;
-
 }
 
 .payout-table tbody tr:hover {
-
     background: rgba(37, 99, 235, .08);
-
 }
-
 
 /*======================================================
                 GAME STATISTICS (full width)
 ======================================================*/
 
 .statistics {
-
     margin-top: 0;
-
     background: var(--surface);
-
     border-radius: 20px;
-
     padding: 28px 30px 30px;
-
     box-shadow: var(--shadow);
-
 }
 
 .statistics h2 {
-
     text-align: center;
-
     font-size: 1.2rem;
-
     margin-bottom: 24px;
-
     font-weight: 600;
-
 }
 
 .statistics h2 i {
-
     color: var(--primary);
-
     margin-right: 10px;
-
 }
 
 .stats-grid {
-
     display: grid;
-
     grid-template-columns: repeat(4, 1fr);
-
     gap: 16px;
-
 }
 
 .stat-card {
-
     background: var(--surface-light);
-
     padding: 18px 12px;
-
     border-radius: 14px;
-
     text-align: center;
-
     transition: .3s;
-
     border: 1px solid rgba(255, 255, 255, .04);
-
 }
 
 .stat-card:hover {
-
     transform: translateY(-4px);
-
 }
 
 .stat-card h4 {
-
     color: var(--text-light);
-
     margin-bottom: 8px;
-
     font-weight: 400;
-
     font-size: .85rem;
-
 }
 
 .stat-card span {
-
     font-size: 1.6rem;
-
     font-weight: 700;
-
     color: var(--primary);
-
 }
-
 
 /*======================================================
                     FOOTER
 ======================================================*/
 
 footer {
-
     margin-top: 50px;
-
     background: var(--surface);
-
     padding: 20px;
-
     text-align: center;
-
     color: var(--text-light);
-
     font-size: .85rem;
-
     border-top: 1px solid rgba(255, 255, 255, .04);
-
 }
-
 
 /*======================================================
                 BUTTON DISABLED
 ======================================================*/
 
 button:disabled {
-
     opacity: .5;
-
     cursor: not-allowed;
-
 }
-
 
 /*======================================================
                 CONFETTI
 ======================================================*/
 
 .confetti {
-
     position: fixed;
-
     top: -20px;
-
     width: 10px;
-
     height: 16px;
-
     z-index: 9999;
-
     opacity: .9;
-
     animation: confettiFall linear forwards;
-
 }
 
 @keyframes confettiFall {
-
     to {
-
-        transform:
-
-            translateY(110vh) rotate(720deg);
-
+        transform: translateY(110vh) rotate(720deg);
         opacity: 0;
-
     }
-
 }
-
 
 /*======================================================
                     RESPONSIVE
@@ -1501,343 +946,221 @@ button:disabled {
 /* Tablet & smaller desktop */
 
 @media(max-width:1100px) {
-
     .game-layout {
-
         grid-template-columns: 1fr 300px;
-
         gap: 22px;
-
     }
 
     .slot {
-
         width: 120px;
-
         height: 140px;
-
     }
 
     .reel-symbol {
-
         height: 140px;
-
     }
 
     .reel-symbol img {
-
         width: 68px;
-
         height: 68px;
-
     }
 
     .machine {
-
         padding: 22px 20px 24px;
-
     }
 
     .slot-frame {
-
         gap: 14px;
-
         padding: 20px 16px;
-
     }
 
     .payline {
-
         left: 16px;
-
         right: 16px;
-
     }
 
     .side-panel {
-
         padding: 18px 14px 20px;
-
     }
-
 }
-
 
 /* Mobile & small tablets */
 
 @media(max-width:820px) {
-
     .game-layout {
-
         grid-template-columns: 1fr;
-
         gap: 24px;
-
     }
 
     .side-panel {
-
         order: 2;
-
         display: grid;
-
         grid-template-columns: 1fr 1fr;
-
         gap: 14px;
-
         padding: 18px 16px 20px;
-
     }
 
     .side-panel .desktop-stats {
-
         grid-column: 1 / -1;
-
     }
 
     .side-panel .bet-section {
-
         grid-column: 1 / -1;
-
     }
 
     .side-panel .action-buttons {
-
         grid-column: 1 / -1;
-
     }
 
     .side-panel .payout-table {
-
         grid-column: 1 / -1;
-
     }
 
     .desktop-stats {
-
         display: block;
-
     }
 
     .mobile-stats {
-
         display: grid;
-
     }
 
     /* Hide desktop stats on mobile */
 
     .desktop-stats .stat-row {
-
         grid-template-columns: 1fr 1fr 1fr;
-
         gap: 6px;
-
     }
 
     .desktop-stats .stat-item {
-
         padding: 8px 6px;
-
     }
 
     .desktop-stats .stat-value {
-
         font-size: 1.1rem;
-
     }
 
     .slot-machine {
-
         order: 1;
-
     }
 
     .statistics {
-
         order: 3;
-
     }
 
     .machine {
-
         max-width: 100%;
-
         padding: 20px 16px 22px;
-
     }
 
     .slot {
-
         width: 100px;
-
         height: 120px;
-
     }
 
     .reel-symbol {
-
         height: 120px;
-
     }
 
     .reel-symbol img {
-
         width: 56px;
-
         height: 56px;
-
     }
 
     .slot-frame {
-
         gap: 10px;
-
         padding: 16px 12px;
-
     }
 
     .payline {
-
         left: 12px;
-
         right: 12px;
-
         height: 2px;
-
     }
 
     .machine-header h2 {
-
         font-size: 1.3rem;
-
     }
 
     .machine-header p {
-
         font-size: .8rem;
-
     }
 
     .machine-lights {
-
         gap: 6px;
-
         margin-bottom: 14px;
-
     }
 
     .machine-lights span {
-
         width: 10px;
-
         height: 10px;
-
     }
 
     .result {
-
         font-size: 1rem;
-
         margin-top: 16px;
-
         min-height: 30px;
-
     }
 
     .side-panel {
-
         padding: 16px 14px 18px;
-
     }
 
     .bet-controls {
-
         gap: 10px;
-
     }
 
     .control-btn {
-
         width: 40px;
-
         height: 40px;
-
         font-size: .9rem;
-
     }
 
     .bet-amount {
-
         font-size: 1.3rem;
-
     }
 
     .spin-btn {
-
         height: 50px;
-
         font-size: 1rem;
-
     }
 
     .secondary-btn {
-
         height: 40px;
-
         font-size: .8rem;
-
     }
 
     .statistics {
-
         padding: 20px 16px 22px;
-
     }
 
     .statistics h2 {
-
         font-size: 1rem;
-
         margin-bottom: 18px;
-
     }
 
     .stats-grid {
-
         grid-template-columns: repeat(2, 1fr);
-
         gap: 12px;
-
     }
 
     .stat-card {
-
         padding: 14px 10px;
-
     }
 
     .stat-card span {
-
         font-size: 1.3rem;
-
     }
 
     .stat-card h4 {
-
         font-size: .75rem;
-
     }
-
 }
-
 
 /* ============================================================
        FIX: Mobile responsiveness for slot images (480px and below)
-       ============================================================ */
+============================================================ */
 
 @media(max-width:480px) {
-
     .container {
         width: 96%;
         margin: 16px auto;
@@ -1895,10 +1218,12 @@ button:disabled {
     }
 
     /* Audio button adjustment */
+
     .audio-control {
         top: 10px;
         right: 12px;
     }
+
     .audio-btn {
         width: 32px;
         height: 32px;
@@ -1906,6 +1231,7 @@ button:disabled {
     }
 
     /* --- FIXED: Slot & symbols with proper sizing --- */
+
     .slot {
         width: clamp(76px, 22vw, 92px);
         height: clamp(92px, 26vw, 110px);
@@ -2057,14 +1383,12 @@ button:disabled {
         padding: 14px;
         font-size: .7rem;
     }
-
 }
 
 
 /* Extra small phones */
 
 @media(max-width:380px) {
-
     .slot {
         width: clamp(64px, 19vw, 76px);
         height: clamp(78px, 23vw, 92px);
@@ -2092,5 +1416,4 @@ button:disabled {
     .machine-header h2 {
         font-size: .95rem;
     }
-
 }
