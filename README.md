@@ -2,8 +2,8 @@
 
 ## Team Members
 
-- Student 1: [Name] - [Student ID]
-- Student 2: [Name] - [Student ID]
+- Student 1: Caryl C. Tabigne - 02-2425-014423
+- Student 2: Jessriel Tadang - [Student ID]
 
 ## Project Title and Theme
 
